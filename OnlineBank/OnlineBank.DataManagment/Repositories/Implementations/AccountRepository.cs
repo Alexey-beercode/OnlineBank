@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineBank.Data.Entity;
+using OnlineBank.Data.Enum;
 using OnlineBank.DataManagment.Repositories.Interfaces;
 
-namespace OnlineBank.DataManagment.Repositories;
+namespace OnlineBank.DataManagment.Repositories.Implementations;
 
 public class AccountRepository:IBaseRepository<Account>
 {
@@ -31,8 +32,15 @@ public class AccountRepository:IBaseRepository<Account>
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<Account>> GetAll()
+    public async Task<List<Account>> GetAll(DataStatusForRequest dataStatusForRequest)
     {
+        switch (dataStatusForRequest)
+        {
+            case DataStatusForRequest.Active:
+                return await _dbContext.Accounts.Where(a => a.IsClosed == false).ToListAsync();
+            case DataStatusForRequest.Deleted:
+                return await _dbContext.Accounts.Where(a => a.IsClosed == false).ToListAsync();
+        }
         return await _dbContext.Accounts.ToListAsync();
     }
 
@@ -41,9 +49,5 @@ public class AccountRepository:IBaseRepository<Account>
         _dbContext.Accounts.Add(entity);
         await _dbContext.SaveChangesAsync();
     }
-
-    public async Task<List<Account>> GetActive()
-    {
-        return await _dbContext.Accounts.Where(a => a.IsClosed == false).ToListAsync();
-    }
+    
 }

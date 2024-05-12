@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineBank.Data.Entity;
+using OnlineBank.Data.Enum;
 using OnlineBank.DataManagment.Repositories.Interfaces;
 
-namespace OnlineBank.DataManagment.Repositories;
+namespace OnlineBank.DataManagment.Repositories.Implementations;
 
 public class UserRepository:IBaseRepository<User>
 {
@@ -24,8 +25,15 @@ public class UserRepository:IBaseRepository<User>
         return await _dbContext.Users.FirstOrDefaultAsync(a => a.Id == id);
     }
 
-    public async Task<List<User>> GetAll()
+    public async Task<List<User>> GetAll(DataStatusForRequest dataStatusForRequest)
     {
+        switch (dataStatusForRequest)
+        {
+            case DataStatusForRequest.Active:
+                return await _dbContext.Users.Where(a => a.IsDeleted == false).ToListAsync();
+            case DataStatusForRequest.Deleted:
+                return await _dbContext.Users.Where(a => a.IsDeleted == true).ToListAsync();
+        }
         return await _dbContext.Users.ToListAsync();
     }
 
