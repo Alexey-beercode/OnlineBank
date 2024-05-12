@@ -20,4 +20,34 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     {
         Database.EnsureCreated();
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        var workFactor = 12;
+        var salt = BCrypt.Net.BCrypt.GenerateSalt(workFactor);
+        string hashedPassword = BCrypt.Net.BCrypt.HashPassword("1025556478955466Admin445", salt);
+        modelBuilder.Entity<Role>().HasData(new Role
+        {
+            Id = new Guid("44546e06-8719-4ad8-b88a-f271ae9d6eab"),
+            Name = "Admin",
+            Level = 10
+        });
+        modelBuilder.Entity<Role>().HasData(new Role
+        {
+            Id = Guid.NewGuid(),
+            Name = "Resident",
+            Level = 1
+        });
+
+        modelBuilder.Entity<User>().HasData(new User
+        {
+            Id = Guid.NewGuid(),
+            Login = "Admin",
+            PasswordHash = hashedPassword,
+            IsDeleted = false
+        });
+        }
+
 }
+
