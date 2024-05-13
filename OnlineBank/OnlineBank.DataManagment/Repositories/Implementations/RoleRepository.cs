@@ -48,4 +48,19 @@ public class RoleRepository:IBaseRepository<Role>
         var users = await _dbContext.Users.Where(a => userIds.Contains(a.Id)).ToListAsync();
         return users;
     }
+
+    public async Task SetRoleToUser(string roleName, Guid userId)
+    {
+        var role = await _dbContext.Roles.FirstOrDefaultAsync(a => a.Name == roleName);
+        _dbContext.UsersRoles.Add(new UserRole() { IsDeleted = false, RoleId = role.Id, Userid = userId });
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteRoleFromUser(string roleName, Guid userId)
+    {
+        var role = await _dbContext.Roles.FirstOrDefaultAsync(a => a.Name == roleName);
+        var userRole = await _dbContext.UsersRoles.FirstOrDefaultAsync(a => a.Userid == userId && a.RoleId == role.Id);
+        _dbContext.UsersRoles.Remove(userRole);
+        await _dbContext.SaveChangesAsync();
+    }
 }
