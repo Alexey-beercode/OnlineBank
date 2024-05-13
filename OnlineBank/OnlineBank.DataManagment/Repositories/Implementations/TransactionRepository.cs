@@ -59,4 +59,15 @@ public class TransactionRepository:IBaseRepository<Transaction>
         _dbContext.Transactions.Add(transaction);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Transaction>> GetByTypeName(string typeName)
+    {
+        var type = await _dbContext.TransactionTypes.FirstOrDefaultAsync(a => a.Name == typeName);
+        return await _dbContext.Transactions.Where(a => a.TypeId == type.Id).ToListAsync();
+    }
+
+    public async Task<List<Transaction>> GetByTypeId(Guid typeId)
+    {
+        return await _dbContext.Transactions.Where(a => a.TypeId == typeId).ToListAsync();
+    }
 }
