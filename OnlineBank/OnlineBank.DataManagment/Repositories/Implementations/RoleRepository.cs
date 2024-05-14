@@ -63,4 +63,21 @@ public class RoleRepository:IBaseRepository<Role>
         _dbContext.UsersRoles.Remove(userRole);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<Role> GetByName(string name)
+    {
+        return await _dbContext.Roles.FirstOrDefaultAsync(a => a.Name==name);
+    }
+
+    public async Task<bool> CheckIsRoleHasUser(Guid roleId, Guid userId)
+    {
+        var userRole = await _dbContext.UsersRoles
+            .FirstOrDefaultAsync(a => a.RoleId == roleId && a.Userid == userId && a.IsDeleted == false);
+        if (userRole!=null)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

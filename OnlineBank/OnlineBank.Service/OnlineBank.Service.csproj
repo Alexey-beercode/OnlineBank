@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\OnlineBank.DataManagment\OnlineBank.DataManagment.csproj" />
+      <ProjectReference Include="..\OnlineBank.Data\OnlineBank.Data.csproj" />
+    </ItemGroup>
+
 </Project>

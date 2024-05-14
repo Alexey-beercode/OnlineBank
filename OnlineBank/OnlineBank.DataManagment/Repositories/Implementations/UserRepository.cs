@@ -36,13 +36,7 @@ public class UserRepository:IBaseRepository<User>
         }
         return await _dbContext.Users.ToListAsync();
     }
-
-    public async Task<List<User>> GetActive()
-    {
-        return await _dbContext.Users
-            .Where(user => user.IsDeleted == false)
-            .ToListAsync();
-    }
+    
 
     public async Task Delete(User entity)
     {
@@ -64,5 +58,10 @@ public class UserRepository:IBaseRepository<User>
     {
         _dbContext.Users.Update(entity);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<User> GetByLogin(string login)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(a => a.Login == login);
     }
 }
