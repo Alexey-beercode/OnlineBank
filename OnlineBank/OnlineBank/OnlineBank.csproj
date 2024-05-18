@@ -11,6 +11,18 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <Content Include="wwwroot\assets\css\.DS_Store" />
+      <Content Include="wwwroot\assets\css\module-css\.DS_Store" />
+      <Content Include="wwwroot\assets\fonts\.DS_Store" />
+      <Content Include="wwwroot\assets\images\.DS_Store" />
+      <Content Include="wwwroot\assets\images\background\.DS_Store" />
+      <Content Include="wwwroot\assets\images\banner\.DS_Store" />
+      <Content Include="wwwroot\assets\images\icons\.DS_Store" />
+      <Content Include="wwwroot\assets\images\news\.DS_Store" />
+      <Content Include="wwwroot\assets\images\resource\.DS_Store" />
+      <Content Include="wwwroot\assets\images\service\.DS_Store" />
+      <Content Include="wwwroot\assets\images\shape\.DS_Store" />
+      <Content Include="wwwroot\assets\images\team\.DS_Store" />
     </ItemGroup>
 
     <ItemGroup>
@@ -28,6 +40,14 @@
 
     <ItemGroup>
       <ProjectReference Include="..\OnlineBank.DataManagment\OnlineBank.DataManagment.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Admin\Controllers\" />
     </ItemGroup>
 
 </Project>
