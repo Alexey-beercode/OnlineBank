@@ -49,4 +49,9 @@ public class DepositRepository:IBaseRepository<Deposit>
         _dbContext.Deposits.Add(entity);
        await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Deposit>> GetByClientId(Guid clientId)
+    {
+        return await _dbContext.Deposits.Where(a => a.ClientId == clientId).ToListAsync();
+    }
 }

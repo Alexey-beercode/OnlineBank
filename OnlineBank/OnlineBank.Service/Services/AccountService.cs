@@ -1,4 +1,5 @@
-﻿using OnlineBank.Data.Entity;
+﻿using System.Text;
+using OnlineBank.Data.Entity;
 using OnlineBank.Data.Enum;
 using OnlineBank.DataManagment.Repositories.Implementations;
 using OnlineBank.Service.Exceptions;
@@ -8,6 +9,7 @@ namespace OnlineBank.Service.Service;
 public class AccountService
 {
     private readonly AccountRepository _accountRepository;
+
 
     public AccountService(AccountRepository accountRepository)
     {
@@ -36,9 +38,26 @@ public class AccountService
         return account;
     }
 
+    public async Task<Account> UpToAccountBalance(Guid accountId, decimal amount,string note)
+    {
+        var account = await _accountRepository.GetById(accountId);
+        if (account is null || account.IsClosed)
+        {
+            throw new Exception("Счет не найден");
+        }
+        
+        account.Balance += amount;
+        await _accountRepository.Update(account);
+        return account;
+
+    }
     public async Task<Account> WithdrawFromAccount(Guid accountId, decimal amount)
     {
         var account = await _accountRepository.GetById(accountId);
+        if (account is null)
+        {
+            throw new Exception("Счет не найден");
+        }
         if (account.Balance<amount)
         {
             throw new AccountOperationException("Недастаточно денег на счете");
@@ -74,10 +93,11 @@ public class AccountService
     public async Task CloseAccount(Guid accountId, Guid reserveAccountId=default)
     {
         var account = await _accountRepository.GetById(accountId);
-        if (account is null)
+        if (account is null || account.IsClosed)
         {
             throw new Exception("Счет не найден");
         }
+
         if (reserveAccountId==default)
         {
             await _accountRepository.Delete(account);
@@ -92,5 +112,31 @@ public class AccountService
 
         reserveAccount.Balance += account.Balance;
         await _accountRepository.Update(reserveAccount);
+    }
+
+    public async Task<List<Account>> Create(Guid clientId)
+    {
+        var account = new Account()
+        {
+            Balance = 0,
+            ClientId = clientId,
+            IsClosed = false,
+            Number = GenerateNumber()
+        };
+        await _accountRepository.Create(account);
+        return await _accountRepository.GetByCLientId(clientId);
+    }
+    private string GenerateNumber()
+    {
+        int length = 10;
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var stringBuilder = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            stringBuilder.Append(chars[Random.Shared.Next(chars.Length)]);
+        }
+
+        return stringBuilder.ToString();
     }
 }

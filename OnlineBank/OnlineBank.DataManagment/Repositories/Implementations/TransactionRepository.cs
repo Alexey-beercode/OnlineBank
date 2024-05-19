@@ -53,6 +53,10 @@ public class TransactionRepository:IBaseRepository<Transaction>
     {
         return await _dbContext.Transactions.Where(a => a.DepositId == depositId).ToListAsync();
     }
+    public async Task<List<Transaction>> GetByAccountId(Guid accountId)
+    {
+        return await _dbContext.Transactions.Where(a => a.AccountId == accountId).ToListAsync();
+    }
 
     public async Task Create(Transaction transaction)
     {

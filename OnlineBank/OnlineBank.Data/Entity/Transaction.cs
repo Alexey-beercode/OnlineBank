@@ -9,5 +9,6 @@ public class Transaction : BaseEntity
     public decimal Amount { get; set; }
     public bool IsCanceled { get; set; }
     public Guid DepositId { get; set; }
+    public Guid AccountId { get; set; }
 
 }

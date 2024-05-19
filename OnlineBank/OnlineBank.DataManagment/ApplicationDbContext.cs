@@ -31,13 +31,39 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         {
             Id = new Guid("44546e06-8719-4ad8-b88a-f271ae9d6eab"),
             Name = "Admin",
-            Level = 10
+            Level = 5
         });
         modelBuilder.Entity<Role>().HasData(new Role
         {
             Id = Guid.NewGuid(),
             Name = "Resident",
             Level = 1
+        });
+        modelBuilder.Entity<Role>().HasData(new Role
+        {
+            Id = Guid.NewGuid(),
+            Name = "Resident",
+            Level = 3
+        });
+        modelBuilder.Entity<TransactionType>().HasData(new TransactionType()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Снятие",
+        });
+        modelBuilder.Entity<TransactionType>().HasData(new TransactionType()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Пополнение",
+        });
+        modelBuilder.Entity<TransactionType>().HasData(new DepositType()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Фиксированной процентной ставкой ",
+        });
+        modelBuilder.Entity<TransactionType>().HasData(new DepositType()
+        {
+            Id = Guid.NewGuid(),
+            Name = "С возможностью пополнения",
         });
 
         modelBuilder.Entity<User>().HasData(new User
@@ -47,7 +73,7 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             PasswordHash = hashedPassword,
             IsDeleted = false
         });
-        }
+    }
 
 }
 
