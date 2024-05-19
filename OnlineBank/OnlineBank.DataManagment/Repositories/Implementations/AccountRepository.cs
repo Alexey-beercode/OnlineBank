@@ -49,5 +49,15 @@ public class AccountRepository:IBaseRepository<Account>
         _dbContext.Accounts.Add(entity);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<Account> GetByNumber(string number)
+    {
+        return await _dbContext.Accounts.FirstOrDefaultAsync(a => a.Number == number);
+    }
+
+    public async Task<List<Account>> GetByCLientId(Guid clientId)
+    {
+        return await _dbContext.Accounts.Where(a => a.ClientId == clientId && a.IsClosed == false).ToListAsync();
+    }
     
 }

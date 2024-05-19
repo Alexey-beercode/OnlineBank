@@ -57,7 +57,7 @@ public class UserController : Controller
         
         try
         {
-            var response = await _userService.RegisterAsync(model);
+            var response = await _userService.RegisterAsync(model,"Resident");
             
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(response));
             

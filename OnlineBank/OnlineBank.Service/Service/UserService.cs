@@ -68,21 +68,6 @@ public class UserService
         return await _userRepository.GetAll(DataStatusForRequest.Default);
     }
 
-    public async Task<List<User>> Create(User user)
-    {
-        string salt = BCrypt.Net.BCrypt.GenerateSalt(_workFactor);
-        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
-
-        user.PasswordHash = hashedPassword;
-        
-        await _userRepository.Create(user);
-        
-        //TODO: Не знаю специально ли ты это упустил или нет, но я пожалуй добавлю
-        await _roleRepository.SetRoleToUser("Resident", user.Id);
-        
-        return await _userRepository.GetAll(DataStatusForRequest.Default);
-    }
-
     public async Task<List<Role>> GetRolesByUser(Guid userId)
     {
         var roles = await _userRepository.GetRolesByUser(userId);
@@ -116,7 +101,7 @@ public class UserService
         return await Authenticate(user);
     }
     
-    public async Task<ClaimsIdentity> RegisterAsync(RegisterViewModel model)
+    public async Task<ClaimsIdentity> RegisterAsync(RegisterViewModel model,string roleName)
     {
         var user = await _userRepository.GetByLogin(model.Login);
         if (user is not null)
@@ -136,7 +121,7 @@ public class UserService
 
         await _userRepository.Create(user);
 
-        await _roleRepository.SetRoleToUser("Resident", user.Id);
+        await _roleRepository.SetRoleToUser(roleName, user.Id);
         
         return await Authenticate(user);
     }

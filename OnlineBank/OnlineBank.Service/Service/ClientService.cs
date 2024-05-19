@@ -9,7 +9,13 @@ public class ClientService
 {
     private readonly ClientRepository _clientRepository;
     private readonly UserRepository _userRepository;
-    
+
+    public ClientService(ClientRepository clientRepository, UserRepository userRepository)
+    {
+        _clientRepository = clientRepository;
+        _userRepository = userRepository;
+    }
+
     public async Task<Client> GetByIdAsync(string userId)
     {
         var client = await _clientRepository.GetById(StringToGuidMapper.MapTo(userId));
