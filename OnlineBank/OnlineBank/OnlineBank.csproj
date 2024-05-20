@@ -49,7 +49,6 @@
 
     <ItemGroup>
       <Folder Include="Admin\Controllers\" />
-      <Folder Include="Views\Account\" />
       <Folder Include="Views\Deposit\" />
     </ItemGroup>
 
