@@ -1,39 +1,54 @@
-﻿@{
+﻿@model OnlineBank.Data.ViewModel.ClientViewModel
+@{
     Layout = "_Layout";
 }
 <div class="boxed_wrapper ltr">
-        <!-- contact-section -->
-        <section class="contact-section pt_120 pb_120">
-            <div class="auto-container">
-                <div class="sec-title centred mb_70">
-                    <h6>Contact US</h6>
-                    <h2>Contact Details</h2>
-                </div>
-                <div class="form-inner">
-                    <form method="post" action="sendemail.php" id="contact-form" class="default-form"> 
-                        <div class="row clearfix">
-                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                <input type="text" name="username" placeholder="Your Name" required="">
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                <input type="email" name="email" placeholder="Your email" required="">
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                <input type="text" name="phone" required="" placeholder="Phone">
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                <input type="text" name="subject" required="" placeholder="Subject">
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                <textarea name="message" placeholder="Type message"></textarea>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn centred">
-                                <button class="theme-btn btn-one" type="submit" name="submit-form">Send Message</button>
-                            </div>
+  
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Введите свои данные</h3>
                         </div>
-                    </form>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Имя</label>
+                                    <input asp-for="Name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Введите имя">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Фамилия</label>
+                                    <input asp-for="Surname" type="text" class="form-control" id="exampleInputPassword1" placeholder="Введите фамилию">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Дата рождения</label>
+                                    <input asp-for="BirthDay" type="date" class="form-control" id="exampleInputPassword1" placeholder="Введите дату рождения">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Адрес</label>
+                                    <input asp-for="Address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Введите адрес">
+                                </div>
+                                              
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Телефон</label>
+                                    <input asp-for="Phone" type="text" class="form-control" id="exampleInputPassword1" placeholder="Введите номер телефона">
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
                 </div>
             </div>
-        </section>
-        <!-- contact-section end -->
-    </div>
+        </div>
+    </section>
+</div>
