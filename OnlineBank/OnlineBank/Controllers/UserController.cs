@@ -79,4 +79,10 @@ public class UserController : Controller
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Redirect("/");
     }
+
+    [HttpGet]
+    public  IActionResult CreateClient()
+    {
+        return View();
+    }
 }
