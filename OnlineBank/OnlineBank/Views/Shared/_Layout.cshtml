@@ -45,6 +45,8 @@
     <link href="~/assets/css/module-css/news.css" rel="stylesheet">
     <link href="~/assets/css/module-css/subscribe.css" rel="stylesheet">
     <link href="~/assets/css/responsive.css" rel="stylesheet">
+    @await RenderSectionAsync("Styles",required:false)
+    
 </head>
 
     <div class="boxed_wrapper ltr">
@@ -76,7 +78,7 @@
                                 </div>
                             </nav>
                             <div class="menu-right-content ml_70">
-                                <a href="index.html" class="theme-btn btn-one">Open Account</a>
+                                <a href="@Url.Action("Profile","User")" class="theme-btn btn-one">Личный кабинет</a>
                                 @if (userRolesNames.Contains("Admin") || userRolesNames.Contains("Manager"))
                                 {
                                     <a href="index.html" class="theme-btn btn-one">Панель администратора</a>

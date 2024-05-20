@@ -81,7 +81,13 @@ public class UserController : Controller
     }
 
     [HttpGet]
-    public  IActionResult CreateClient()
+    public IActionResult CreateClient()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Profile()
     {
         return View();
     }
