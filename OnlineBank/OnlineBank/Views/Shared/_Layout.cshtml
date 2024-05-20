@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+    var userRolesNames=User.Claims
+        .Where(c => c.Type == ClaimTypes.Role)
+        .Select(c => c.Value).ToList();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -65,64 +71,17 @@
                             <nav class="main-menu navbar-expand-md navbar-light clearfix">
                                 <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                                     <ul class="navigation clearfix">
-                                        <li class="current dropdown"><a href="index.html">Home</a>
-                                            <ul>
-                                                <li><a href="index.html">Home Page One</a></li>
-                                                <li><a href="index-2.html">Home Page Two</a></li>
-                                                <li><a href="index-3.html">Home Page Three</a></li>
-                                                <li><a href="index-onepage.html">OnePage Home</a></li>
-                                            </ul>
-                                        </li> 
-                                        <li><a href="about.html">About</a></li>
-                                        <li class="dropdown"><a href="index.html">Services</a>
-                                            <ul>
-                                                <li><a href="service.html">Our Services</a></li>
-                                                <li><a href="service-2.html">Our Services 2</a></li>
-                                                <li><a href="service-details.html">Digital Banking</a></li>
-                                                <li><a href="service-details-2.html">Mobile & Web Banking</a></li>
-                                                <li><a href="service-details-3.html">Insurance Policies</a></li>
-                                                <li><a href="service-details-4.html">Home & Property Loan</a></li>
-                                                <li><a href="service-details-5.html">All Bank Account</a></li>
-                                                <li><a href="service-details-6.html">Borrowing Accounts</a></li>
-                                                <li><a href="service-details-7.html">Private Banking</a></li>
-                                                <li><a href="service-details-8.html">Fixed Term Account</a></li>
-                                            </ul>
-                                        </li> 
-                                        <li class="dropdown"><a href="index.html">Pages</a>
-                                            <ul>
-                                                <li class="dropdown"><a href="index.html">Directors</a>
-                                                    <ul>
-                                                        <li><a href="team.html">Board of Directors</a></li>
-                                                        <li><a href="team-details.html">Director Details</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="dropdown"><a href="index.html">Career</a>
-                                                    <ul>
-                                                        <li><a href="career.html">Career Page</a></li>
-                                                        <li><a href="career-details.html">Career Details</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="dropdown"><a href="index.html">Blog</a>
-                                                    <ul>
-                                                        <li><a href="blog.html">Blog Grid</a></li>
-                                                        <li><a href="blog-2.html">Blog Image</a></li>
-                                                        <li><a href="blog-3.html">Blog Standard</a></li>
-                                                        <li><a href="blog-details.html">Blog Details</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="currency.html">Currency Exchange</a></li>
-                                                <li><a href="credit-cards.html">Credit Cards</a></li>
-                                                <li><a href="faq.html">General FAQ’s</a></li>
-                                                <li><a href="error.html">404 Error</a></li>
-                                            </ul>
-                                        </li> 
-                                        <li><a href="contact.html">Contact</a></li> 
+                                        <li><a href="contact.html">Открыть депозит</a></li> 
+                                        <li><a href="contact.html">Открыть счет</a></li> 
                                     </ul>
                                 </div>
                             </nav>
                             <div class="menu-right-content ml_70">
-                                <a href="index.html" class="theme-btn btn-two mr_20">Login</a>
                                 <a href="index.html" class="theme-btn btn-one">Open Account</a>
+                                @if (userRolesNames.Contains("Admin") || userRolesNames.Contains("Manager"))
+                                {
+                                    <a href="index.html" class="theme-btn btn-one">Панель администратора</a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -142,7 +101,6 @@
                                 <!--Keep This Empty / Menu will come through Javascript-->
                             </nav>
                             <div class="menu-right-content ml_70">
-                                <a href="index.html" class="theme-btn btn-two mr_20">Login</a>
                                 <a href="index.html" class="theme-btn btn-one">Open Account</a>
                             </div>
                         </div>

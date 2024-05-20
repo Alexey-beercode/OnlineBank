@@ -18,7 +18,6 @@ public class ApplicationDbContext : DbContext
 public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        Database.EnsureCreated();
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,7 +28,7 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword("1025556478955466Admin445", salt);
         modelBuilder.Entity<Role>().HasData(new Role
         {
-            Id = new Guid("44546e06-8719-4ad8-b88a-f271ae9d6eab"),
+            Id = new Guid("36111A6D-9151-46FA-A954-7B37160D52DB"),
             Name = "Admin",
             Level = 5
         });
@@ -42,7 +41,7 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         modelBuilder.Entity<Role>().HasData(new Role
         {
             Id = Guid.NewGuid(),
-            Name = "Resident",
+            Name = "Manager",
             Level = 3
         });
         modelBuilder.Entity<TransactionType>().HasData(new TransactionType()
@@ -55,12 +54,12 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             Id = Guid.NewGuid(),
             Name = "Пополнение",
         });
-        modelBuilder.Entity<TransactionType>().HasData(new DepositType()
+        modelBuilder.Entity<DepositType>().HasData(new DepositType()
         {
             Id = Guid.NewGuid(),
             Name = "Фиксированной процентной ставкой ",
         });
-        modelBuilder.Entity<TransactionType>().HasData(new DepositType()
+        modelBuilder.Entity<DepositType>().HasData(new DepositType()
         {
             Id = Guid.NewGuid(),
             Name = "С возможностью пополнения",
@@ -68,10 +67,17 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 
         modelBuilder.Entity<User>().HasData(new User
         {
-            Id = Guid.NewGuid(),
+            Id = new Guid("36111A6D-9151-46FA-A954-7B37160D53DB"),
             Login = "Admin",
             PasswordHash = hashedPassword,
             IsDeleted = false
+        });
+        modelBuilder.Entity<UserRole>().HasData(new UserRole()
+        {
+            Id = Guid.NewGuid(),
+            IsDeleted = false,
+            RoleId = new Guid("36111A6D-9151-46FA-A954-7B37160D52DB"),
+            Userid = new Guid("36111A6D-9151-46FA-A954-7B37160D53DB")
         });
     }
 

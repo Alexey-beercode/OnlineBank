@@ -3,9 +3,8 @@ using OnlineBank.Data.Entity;
 using OnlineBank.Data.Enum;
 using OnlineBank.Data.ViewModel;
 using OnlineBank.DataManagment.Repositories.Implementations;
-using OnlineBank.DataManagment.Repositories.Interfaces;
 
-namespace OnlineBank.Service.Service;
+namespace OnlineBank.Service.Services;
 
 public class UserService
 {
@@ -127,13 +126,18 @@ public class UserService
     }
     
     private async Task<ClaimsIdentity> Authenticate(User user)
-    {   
+    {
+        var rolesNames = (await GetRolesByUser(user.Id)).Select(a=>a.Name).ToList();
         List<Claim> claims = new List<Claim>()
         {
             new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
             new Claim("UserId", user.Id.ToString()),
+            
         };
-
+        foreach (var role in rolesNames)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
         return new ClaimsIdentity(claims, "Authentication", ClaimsIdentity.DefaultNameClaimType, null);
     }
 }

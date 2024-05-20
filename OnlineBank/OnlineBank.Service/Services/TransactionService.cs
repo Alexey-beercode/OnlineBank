@@ -2,7 +2,7 @@
 using OnlineBank.Data.Entity;
 using OnlineBank.DataManagment.Repositories.Implementations;
 
-namespace OnlineBank.Service.Service;
+namespace OnlineBank.Service.Services;
 
 public class TransactionService
 {
