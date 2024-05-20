@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBank.Data.ViewModel;
+using OnlineBank.Models;
 using OnlineBank.Service.Service;
 using OnlineBank.Service.Services;
 
@@ -12,10 +13,11 @@ namespace OnlineBank.Controllers;
 public class UserController : Controller
 {
     private readonly UserService _userService;
-
-    public UserController(UserService userService)
+    private readonly ClientService _clientService;
+    public UserController(UserService userService, ClientService clientService)
     {
         _userService = userService;
+        _clientService = clientService;
     }
 
     [HttpGet]
@@ -38,7 +40,7 @@ public class UserController : Controller
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(response));
     
-            return RedirectToAction("Index","Home");
+            return Redirect("/");
         }
         catch(Exception ex)
         {
@@ -71,6 +73,66 @@ public class UserController : Controller
             return View("Authorization");
         }
     }
+
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> Profile()
+    {
+        try
+        {
+            string login = User.Identity.Name;
+            if (string.IsNullOrEmpty(login))
+            {
+                throw new Exception("User not found");
+            }
+            
+            var currentUser = await _userService.GetByLogin(login);
+            if (currentUser is null)
+            {
+                throw new Exception("User not found");
+            }
+
+            if (currentUser.ClientId.Equals(Guid.Empty))
+            {
+                return Redirect($"/User/CreateClient/");
+            }
+
+            return View();
+        }
+        catch (Exception ex)
+        {
+            return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+        }
+    }
+    
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> CreateClient()
+    {
+        return View();
+    }
+    
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> CreateClient(ClientViewModel viewModel)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            
+            string userIdString = User.FindFirst("UserId")?.Value;
+            await _clientService.CreateClientAsync(viewModel, userIdString);
+            
+            return Redirect($"/User/Profile/"); 
+        }
+        catch (Exception ex)
+        {
+            return View("Error", new ErrorViewModel() { RequestId = ex.Message });
+        }
+    }
     
     [HttpGet]
     [Authorize]
@@ -78,17 +140,5 @@ public class UserController : Controller
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Redirect("/");
-    }
-
-    [HttpGet]
-    public IActionResult CreateClient()
-    {
-        return View();
-    }
-
-    [HttpGet]
-    public IActionResult Profile()
-    {
-        return View();
     }
 }

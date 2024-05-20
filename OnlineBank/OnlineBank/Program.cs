@@ -13,8 +13,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<RoleRepository>();
 
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ClientService>();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 string? deviceConnection = builder.Configuration.GetConnectionString("ConnectionString");
 builder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseNpgsql(deviceConnection); });
 
@@ -42,8 +45,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

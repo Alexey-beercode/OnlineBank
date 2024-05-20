@@ -2,6 +2,25 @@
 @{
     Layout = "_Layout";
 }
+
+<div class="modal fade" id="validationErrorsModal" tabindex="-1" aria-labelledby="validationErrorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="validationErrorsModalLabel">Ошибки валидации</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>@Html.ValidationSummary(false, "", new { @class = "text-danger" })</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="boxed_wrapper ltr">
   
     <!-- Main content -->
@@ -17,7 +36,7 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form>
+                        <form asp-controller="User" asp-action="CreateClient" method="post">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Имя</label>
@@ -52,3 +71,14 @@
         </div>
     </section>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <text>$('#validationErrorsModal').modal('show'); </text>
+            }
+        })    
+    </script>
+}
