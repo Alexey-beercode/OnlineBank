@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+html, body {
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  line-height: 23px; }
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px; }
+  .container.lg {
+    max-width: 767px; }
+
+@media (min-width: 767px) {
+  [data-animate] {
+    -webkit-transform: translate3d(0, 25px, 0);
+    transform: translate3d(0, 25px, 0);
+    -webkit-transition: 0.5s ease-out;
+    transition: 0.5s ease-out;
+    opacity: 0; }
+    [data-animate].__animated {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      opacity: 1; }
+  [data-animate-top] {
+    transform: translateY(3rem);
+    transition: 0.5s ease-out;
+    opacity: 0; }
+    [data-animate-top].__animated {
+      transform: translateY(0);
+      opacity: 1; }
+  [data-animate-left] {
+    transform: translateX(-3rem);
+    transition: 0.5s ease-out;
+    opacity: 0; }
+    [data-animate-left].__animated {
+      transform: translateX(0);
+      opacity: 1; } }

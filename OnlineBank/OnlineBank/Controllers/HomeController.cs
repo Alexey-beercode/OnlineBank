@@ -5,7 +5,6 @@ using OnlineBank.Models;
 
 namespace OnlineBank.Controllers;
 
-[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -29,5 +28,10 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    public IActionResult Test()
+    {
+        return View("DepositsByClient");
     }
 }

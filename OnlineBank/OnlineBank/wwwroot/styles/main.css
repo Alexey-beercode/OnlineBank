@@ -1,0 +1,356 @@
+.h2-headline {
+  text-align: center;
+  font-size: 48px;
+  line-height: 58px;
+  font-weight: 500; }
+  @media (max-width: 767px) {
+    .h2-headline {
+      font-size: 32px;
+      line-height: 48px; } }
+
+.green-btn {
+  color: #ffffff;
+  background-color: #62856E;
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-size: 20px;
+  border: none;
+  width: 200px;
+  cursor: pointer; }
+
+.post-link {
+  color: initial;
+  text-decoration: none;
+  cursor: pointer; }
+
+.reservation {
+  background: url("../images/forest.png") center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; }
+  .reservation_inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .reservation_inner .main-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+      .reservation_inner .main-text .light-text {
+        color: #ffffff;
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: 100; }
+      .reservation_inner .main-text .h1-headline {
+        font-family: "IBM Plex Serif", serif;
+        color: #ffffff;
+        font-size: 80px;
+        line-height: 64px;
+        font-weight: 700;
+        font-style: italic;
+        text-transform: uppercase; }
+        @media (max-width: 767px) {
+          .reservation_inner .main-text .h1-headline {
+            font-size: 48px;
+            line-height: normal; } }
+      .reservation_inner .main-text .description {
+        color: #ffffff;
+        text-align: center;
+        margin-top: 24px;
+        max-width: 500px; }
+  .reservation-form {
+    display: flex;
+    gap: 24px; }
+    .reservation-form-wrapper {
+      margin: 48px 0;
+      padding: 28px 48px;
+      background-color: #ffffff;
+      border-radius: 16px;
+      width: 100%; }
+      @media (max-width: 991px) {
+        .reservation-form-wrapper {
+          width: auto; } }
+    @media (max-width: 991px) {
+      .reservation-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 576px) {
+      .reservation-form {
+        display: grid;
+        grid-template-columns: 1fr; } }
+    .reservation-form .calendar-wrapper,
+    .reservation-form .persons-wrapper {
+      position: relative;
+      width: 300px;
+      background-color: #F5F5F5;
+      border-radius: 8px;
+      padding: 4px 10px; }
+      @media (max-width: 991px) {
+        .reservation-form .calendar-wrapper,
+        .reservation-form .persons-wrapper {
+          width: auto; } }
+      .reservation-form .calendar-wrapper .content,
+      .reservation-form .persons-wrapper .content {
+        display: flex;
+        justify-content: space-between; }
+      .reservation-form .calendar-wrapper .calendar,
+      .reservation-form .persons-wrapper .calendar {
+        position: absolute;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        left: 0;
+        top: 70px; }
+      .reservation-form .calendar-wrapper #guests-form,
+      .reservation-form .persons-wrapper #guests-form {
+        position: absolute;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        min-width: 272px;
+        max-width: 100%;
+        flex-direction: column;
+        border-radius: .75rem;
+        padding: 1rem;
+        opacity: 1; }
+      .reservation-form .calendar-wrapper #guests-form.hidden,
+      .reservation-form .persons-wrapper #guests-form.hidden {
+        display: none; }
+      .reservation-form .calendar-wrapper #guests-form h3,
+      .reservation-form .persons-wrapper #guests-form h3 {
+        font-weight: 500;
+        font-size: 20px; }
+      .reservation-form .calendar-wrapper #guests-form .inputs,
+      .reservation-form .persons-wrapper #guests-form .inputs {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 20px; }
+        .reservation-form .calendar-wrapper #guests-form .inputs-item span,
+        .reservation-form .persons-wrapper #guests-form .inputs-item span {
+          color: #737373;
+          font-size: 12px; }
+        .reservation-form .calendar-wrapper #guests-form .inputs-item .input,
+        .reservation-form .persons-wrapper #guests-form .inputs-item .input {
+          padding: 8px;
+          border: 1px solid black;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          gap: 10px; }
+          .reservation-form .calendar-wrapper #guests-form .inputs-item .input input,
+          .reservation-form .persons-wrapper #guests-form .inputs-item .input input {
+            width: 20px !important; }
+      .reservation-form .calendar-wrapper #guests-form .guests-btn,
+      .reservation-form .persons-wrapper #guests-form .guests-btn {
+        width: 100%;
+        margin-top: 20px; }
+      .reservation-form .calendar-wrapper img,
+      .reservation-form .persons-wrapper img {
+        cursor: pointer; }
+      .reservation-form .calendar-wrapper .left,
+      .reservation-form .persons-wrapper .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; }
+        .reservation-form .calendar-wrapper .left span,
+        .reservation-form .persons-wrapper .left span {
+          color: #626262;
+          font-size: 14px; }
+        .reservation-form .calendar-wrapper .left .date,
+        .reservation-form .persons-wrapper .left .date {
+          margin-top: 8px;
+          color: #3A3A3A;
+          font-weight: 500; }
+    .reservation-form-btn, .reservation-form .guests-btn {
+      color: #ffffff;
+      background-color: #62856E;
+      border-radius: 8px;
+      padding: 16px 32px;
+      font-size: 20px;
+      border: none;
+      width: 200px;
+      cursor: pointer; }
+    @media (max-width: 576px) {
+      .reservation-form-btn {
+        margin: 0 auto; } }
+
+.reviews,
+.sales,
+.feed {
+  margin-top: 120px; }
+  .reviews_inner,
+  .sales_inner,
+  .feed_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; }
+  .reviews .list,
+  .sales .list,
+  .feed .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    overflow: auto;
+    overflow-y: hidden; }
+    .reviews .list-item,
+    .sales .list-item,
+    .feed .list-item {
+      display: block;
+      text-decoration: none;
+      color: initial;
+      padding: 32px 30px;
+      border: 1px solid #EAEAEA;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 320px;
+      height: max-content;
+      position: relative; }
+      .reviews .list-item::after,
+      .sales .list-item::after,
+      .feed .list-item::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 40px;
+        background: center/cover url("../../images/icons/quote.svg");
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        z-index: -1; }
+      .reviews .list-item .link,
+      .sales .list-item .link,
+      .feed .list-item .link {
+        text-decoration: none;
+        color: black; }
+        .reviews .list-item .link:hover,
+        .sales .list-item .link:hover,
+        .feed .list-item .link:hover {
+          text-decoration: underline; }
+      .reviews .list-item .item-info,
+      .sales .list-item .item-info,
+      .feed .list-item .item-info {
+        display: flex;
+        align-items: center;
+        gap: 10px; }
+        .reviews .list-item .item-info .name,
+        .sales .list-item .item-info .name,
+        .feed .list-item .item-info .name {
+          font-weight: 600; }
+        .reviews .list-item .item-info .date,
+        .sales .list-item .item-info .date,
+        .feed .list-item .item-info .date {
+          color: #797575; }
+      .reviews .list-item .item-content .review-text,
+      .sales .list-item .item-content .review-text,
+      .feed .list-item .item-content .review-text {
+        display: none;
+        transition: all .3s ease;
+        margin: 10px 0; }
+        .reviews .list-item .item-content .review-text:nth-of-type(1),
+        .sales .list-item .item-content .review-text:nth-of-type(1),
+        .feed .list-item .item-content .review-text:nth-of-type(1) {
+          display: block; }
+      .reviews .list-item .item-content.open .review-text,
+      .sales .list-item .item-content.open .review-text,
+      .feed .list-item .item-content.open .review-text {
+        display: block; }
+      .reviews .list-item .item-btn,
+      .sales .list-item .item-btn,
+      .feed .list-item .item-btn {
+        display: inline;
+        text-decoration: underline;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 18px;
+        cursor: pointer; }
+  .reviews .create-review,
+  .sales .create-review,
+  .feed .create-review {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: initial;
+    width: max-content;
+    background: none;
+    border: none;
+    margin-top: 40px; }
+    .reviews .create-review:hover,
+    .sales .create-review:hover,
+    .feed .create-review:hover {
+      text-decoration: underline; }
+
+.reviews {
+  margin-top: 150px;
+  overflow: hidden; }
+  .reviews_inner {
+    display: block; }
+  .reviews .list {
+    overflow: unset;
+    margin-top: 80px;
+    position: relative; }
+    .reviews .list-item {
+      min-width: unset; }
+  .reviews .swiper-button-next,
+  .reviews .swiper-button-prev {
+    position: absolute;
+    top: -30px;
+    width: 40px;
+    height: 40px; }
+    .reviews .swiper-button-next::after,
+    .reviews .swiper-button-prev::after {
+      font-size: 26px;
+      color: #3A3A3A; }
+  .reviews .swiper-button-next {
+    right: 100px; }
+    @media (max-width: 767px) {
+      .reviews .swiper-button-next {
+        right: 0; } }
+  .reviews .swiper-button-prev {
+    left: 100px; }
+    @media (max-width: 767px) {
+      .reviews .swiper-button-prev {
+        left: 0; } }
+  .reviews .swiper-pagination {
+    bottom: -40px !important; }
+    @media (max-width: 767px) {
+      .reviews .swiper-pagination {
+        display: none; } }
+    .reviews .swiper-pagination .swiper-pagination-bullet-active {
+      background-color: #3A3A3A; }
+
+.sales .list-item,
+.feed .list-item {
+  border: none;
+  background-color: #F5F5F5;
+  padding: 12px 12px 48px 12px;
+  gap: 0; }
+  .sales .list-item .date,
+  .feed .list-item .date {
+    font-weight: 300;
+    font-size: 14px;
+    margin: 20px 0 10px; }
+  .sales .list-item img,
+  .feed .list-item img {
+    width: 100%;
+    height: 280px;
+    border-radius: 10px;
+    object-fit: cover;
+    transition: all .15s ease; }
+    .sales .list-item img:hover,
+    .feed .list-item img:hover {
+      transform: scale(1.01); }
+
+.feed {
+  padding-bottom: 120px;
+  overflow: hidden; }
+  .feed .list-item {
+    background-color: transparent;
+    border: none;
+    padding: 0; }
+    .feed .list-item:hover .link {
+      text-decoration: underline; }
+    .feed .list-item img:hover {
+      transform: none; }
+  .feed .link {
+    margin-top: 20px; }

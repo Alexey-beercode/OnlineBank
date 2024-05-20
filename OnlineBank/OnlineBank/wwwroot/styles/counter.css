@@ -1,0 +1,81 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+}
+
+.calculator {
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.calculator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 15px 0 15px;
+}
+
+.calculator-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+.calculator-body {
+  padding: 15px;
+}
+
+.calculator-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 25px;
+}
+
+.calculator-label {
+  font-size: 14px;
+  color: #777;
+  flex: 1;
+}
+
+.calculator-input {
+  width: 100%;
+  height: 30px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: x-large;
+  color: black;
+}
+.cardPriceButton {
+  display: flex;
+  color: white;
+  border-radius: 7px;
+  font-size: 18px;
+  margin-top: 30px;
+  padding: 10px 25px 10px 25px;
+  background-color: #62856e;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+}
+.cardPriceButton:hover {
+  background-color: #4b947a;
+}
+.zero {
+  margin: 3px;
+}

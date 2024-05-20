@@ -37,8 +37,8 @@ public class UserController : Controller
             var response = await _userService.LoginAsync(model);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(response));
-
-            return Redirect("/");
+    
+            return RedirectToAction("Index","Home");
         }
         catch(Exception ex)
         {

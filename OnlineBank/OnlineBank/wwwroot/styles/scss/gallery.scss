@@ -1,0 +1,34 @@
+.page-gallery {
+    .section-gallery {
+        margin: 250px 0 100px;
+  
+        &_inner {
+            #lightgallery {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+                align-items: center;
+
+                .lg-item {
+                    width: 100%;
+                   
+
+                    img {
+                        max-height: 500px;
+                        width: 100%;
+                        object-fit: cover;
+
+                        transition: all 0.3s ease;
+
+                        &:hover {
+                            cursor: pointer;
+    
+                            transform: scale(1.05);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

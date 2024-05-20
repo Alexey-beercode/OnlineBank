@@ -1,0 +1,156 @@
+.page-reviews {
+    .section-reviews {
+        margin: 250px 0 100px; 
+
+        .h1-headline {
+            font-size: 50px;
+            line-height: 60px;
+        }
+
+        &_inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        &_content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .list-item {
+            display: block;
+            text-decoration: none;
+            color: initial;
+
+            padding: 32px 30px;
+
+            border: 1px solid #EAEAEA;
+            border-radius: 8px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            min-width: 320px;
+            height: max-content;
+
+            position: relative;
+
+            &::after {
+                content: "";
+                display: block;
+                width: 60px;
+                height: 40px;
+                background: center/cover url("../../images/icons/quote.svg");
+
+                position: absolute;
+                top: 20px;
+                right: 70px;
+                z-index: -1;
+            }
+
+            .link {
+                text-decoration: none;
+                color: black;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .item {
+                &-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+    
+                    .name {
+                        font-weight: 600;
+                    }
+                    .date {
+                        color: #797575; 
+                    }
+                }
+    
+                &-content {
+                    .review-text {
+                        display: none;
+
+                        transition: all .3s ease;
+
+                        margin: 10px 0;
+    
+                        &:nth-of-type(1) {
+                            display: block;
+                        }
+                    }
+
+                    &.open {
+                        .review-text {
+                            display: block; 
+                        }
+                    }
+                }
+
+                &-btn {
+                    display: inline;
+                    text-decoration: underline;
+                    font-weight: 500;
+
+                    font-size: 14px;
+                    line-height: 18px;
+
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .pagination { 
+        margin: 100px 0;
+
+        &_inner {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+
+            width: max-content;
+
+            margin: 0 auto;
+
+            @media (max-width: 767px) {
+                gap: 20px;
+            }
+        }
+
+        &_btn {
+            height: max-content;
+            text-decoration: none;
+            color: initial;
+
+            &.page {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                border: 1px solid #EAEAEA;
+                width: 40px;
+                height: 40px;
+                text-align: center;
+
+                &.mobile-hidden {
+                    display: none;
+                }
+
+                &.active {
+                    background-color: #EAEAEA;
+                    color: #000;
+                }
+            }
+        }
+    }
+}

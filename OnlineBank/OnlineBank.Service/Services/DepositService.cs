@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using OnlineBank.Data.Entity;
 using OnlineBank.Data.Enum;
+using OnlineBank.Data.ViewModels;
 using OnlineBank.DataManagment.Repositories.Implementations;
 
 namespace OnlineBank.Service.Services;
@@ -14,6 +15,22 @@ public class DepositService
     {
         _depositRepository = depositRepository;
         _depositTypeRepository = depositTypeRepository;
+    }
+
+    public async Task<List<DepositByClienViewModel>> GetDepositsByClientAsync(Guid clientId)
+    {
+        var depositsByClient = await _depositRepository.GetByClientId(clientId);
+        var depositByClientViewModels = new List<DepositByClienViewModel>();
+        foreach (var depositByClient in depositsByClient)
+        {
+            var depositType = await _depositTypeRepository.GetById(depositByClient.TypeId);
+            var depositByClientViewModel = new DepositByClienViewModel()
+                { Deposit = depositByClient, DepositType = depositType };
+           depositByClientViewModels.Add(depositByClientViewModel);
+        }
+
+        return depositByClientViewModels;
+
     }
     public async Task<decimal> CalculateTotalAmount(decimal principalAmount, int depositTermInMonths, string depositTypeName)
     {

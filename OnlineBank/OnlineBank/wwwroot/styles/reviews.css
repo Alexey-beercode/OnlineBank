@@ -1,0 +1,97 @@
+.page-reviews .section-reviews {
+  margin: 250px 0 100px; }
+  .page-reviews .section-reviews .h1-headline {
+    font-size: 50px;
+    line-height: 60px; }
+  .page-reviews .section-reviews_inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px; }
+  .page-reviews .section-reviews_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; }
+  .page-reviews .section-reviews .list-item {
+      width: 100%;
+    display: block;
+    text-decoration: none;
+    color: initial;
+    padding: 32px 30px;
+    border: 1px solid #EAEAEA;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 320px;
+    height: max-content;
+    position: relative; }
+    .page-reviews .section-reviews .list-item::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 40px;
+      background: center/cover url("../../images/icons/quote.svg");
+      position: absolute;
+      top: 20px;
+      right: 70px;
+      z-index: -1; }
+    .page-reviews .section-reviews .list-item .link {
+      text-decoration: none;
+      color: black; }
+      .page-reviews .section-reviews .list-item .link:hover {
+        text-decoration: underline; }
+    .page-reviews .section-reviews .list-item .item-info {
+      display: flex;
+      align-items: center;
+      gap: 10px; }
+      .page-reviews .section-reviews .list-item .item-info .name {
+        font-weight: 600; }
+      .page-reviews .section-reviews .list-item .item-info .date {
+        color: #797575; }
+    .page-reviews .section-reviews .list-item .item-content .review-text {
+      display: none;
+      transition: all .3s ease;
+      margin: 10px 0; }
+      .page-reviews .section-reviews .list-item .item-content .review-text:nth-of-type(1) {
+        display: block; }
+    .page-reviews .section-reviews .list-item .item-content.open .review-text {
+      display: block; }
+    .page-reviews .section-reviews .list-item .item-btn {
+      display: inline;
+      text-decoration: underline;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 18px;
+      cursor: pointer; }
+
+.page-reviews .pagination {
+  margin: 100px 0; }
+  .page-reviews .pagination_inner {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    width: max-content;
+    margin: 0 auto; }
+    @media (max-width: 767px) {
+      .page-reviews .pagination_inner {
+        gap: 20px; } }
+  .page-reviews .pagination_btn {
+    height: max-content;
+    text-decoration: none;
+    color: initial; }
+    .page-reviews .pagination_btn.page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid #EAEAEA;
+      width: 40px;
+      height: 40px;
+      text-align: center; }
+      .page-reviews .pagination_btn.page.mobile-hidden {
+        display: none; }
+      .page-reviews .pagination_btn.page.active {
+        background-color: #EAEAEA;
+        color: #000; }

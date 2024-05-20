@@ -1,0 +1,28 @@
+.posts_inner {
+  display: flex;
+  flex-direction: column; }
+
+.posts .post {
+  padding-top: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  border-bottom: 1px solid #C4C4C4;
+  padding-bottom: 80px; }
+  @media (max-width: 991px) {
+    .posts .post {
+      padding-top: 100px; } }
+  .posts .post-title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 30px; }
+  .posts .post-date {
+    margin: 10px 0 30px; }
+  .posts .post-img {
+    width: 100%; }
+    .posts .post-img img {
+      width: 100%;
+      object-fit: cover; }
+  .posts .post-content p {
+    margin: 18px 0; }

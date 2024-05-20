@@ -1,0 +1,137 @@
+.header {
+  background-color: transparent;
+  padding: 40px 0;
+  position: fixed;
+  top: 0;
+  width: 100%; }
+  .header .logo-headline {
+    font-family: "IBM Plex Serif", serif;
+    color: #FFFFFF;
+    font-size: 40px;
+    font-weight: 500;
+    font-style: italic;
+    text-decoration: none; }
+  .header .burger.dark {
+    display: none; }
+  .header.sticky, .header.always-white {
+    background-color: #ffffff;
+    z-index: 10;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); }
+    .header.sticky .header-link, .header.always-white .header-link {
+      color: #0E0E0E; }
+    .header.sticky .logo-headline, .header.always-white .logo-headline {
+      font-family: "IBM Plex Serif", serif;
+      color: #0E0E0E; }
+    .header.sticky .header-btn, .header.always-white .header-btn {
+      border: 1px solid #0E0E0E; }
+      .header.sticky .header-btn:hover, .header.always-white .header-btn:hover {
+        background-color: #0E0E0E;
+        color: #ffffff; }
+    .header.sticky .burger.white, .header.always-white .burger.white {
+      display: none; }
+    .header.sticky .burger.dark, .header.always-white .burger.dark {
+      display: block; }
+  .header_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; }
+  .header_top .with-icons {
+    max-width: max-content;
+    display: flex;
+    gap: 60px; }
+    @media (max-width: 767px) {
+      .header_top .with-icons {
+        gap: 20px; } }
+    .header_top .with-icons .icon {
+      padding-left: 28px; }
+  .header_top .desktop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+    @media (max-width: 1200px) {
+      .header_top .desktop {
+        display: none; } }
+  .header_top .mobile {
+    display: none; }
+    @media (max-width: 1200px) {
+      .header_top .mobile {
+        display: flex;
+        justify-content: space-between; } }
+    .header_top .mobile .left {
+      display: flex;
+      gap: 20px;
+      flex-direction: column; }
+      .header_top .mobile .left > div {
+        display: flex;
+        gap: 20px;
+        flex-direction: column; }
+    .header_top .mobile #burger {
+      cursor: pointer; }
+  .header_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+    @media (max-width: 1200px) {
+      .header_nav.desktop {
+        display: none; } }
+    .header_nav.mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 12;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      padding: 30px 15px;
+      flex-direction: column;
+      align-items: unset;
+      justify-content: unset; }
+      .header_nav.mobile.hidden {
+        display: none; }
+      .header_nav.mobile .nav-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 80px; }
+      .header_nav.mobile .nav .header-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px; }
+        .header_nav.mobile .nav .header-links .header-link {
+          color: #000000; }
+    .header_nav .header-links {
+      display: flex;
+      gap: 40px; }
+  .header-link {
+    color: #ffffff;
+    text-decoration: none; }
+    .header-link:hover {
+      text-decoration: underline; }
+    .header-link.icon {
+      position: relative; }
+      .header-link.icon:hover {
+        text-decoration: none; }
+      .header-link.icon::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        left: 0;
+        transition: all .2s ease; }
+      .header-link.icon.phone::after {
+        background: center/contain url(../../images/icons/phone.svg) no-repeat; }
+      .header-link.icon.gallery::after {
+        background: center/contain url(../../images/icons/gallery.svg) no-repeat; }
+      .header-link.icon.review::after {
+        background: center/contain url(../../images/icons/review.svg) no-repeat; }
+      .header-link.icon:hover::after {
+        transform: scale(1.2); }
+  .header-btn {
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    padding: 12px 20px;
+    transition: all .3s ease; }
+    .header-btn:hover {
+      text-decoration: none;
+      background-color: #ffffff;
+      color: #000000; }

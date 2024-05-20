@@ -1,0 +1,118 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  width: 1264px;
+  margin: 0 auto;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+h2 {
+  padding-bottom: 10px;
+}
+.container {
+  padding: 30px;
+}
+.info {
+  background-color: #fafafa;
+  padding: 15px;
+}
+.costDiv {
+  display: flex;
+  gap: 10px;
+  font-size: 17px;
+  align-items: center;
+}
+.costDivP {
+  font-weight: bold;
+  font-size: 20px;
+}
+.costDivP span {
+  color: gray;
+  font-weight: 300;
+}
+.desc {
+  padding: 15px;
+  border: 1px solid grey;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 150px;
+}
+.widthFull {
+  border-radius: 5px;
+  max-width: 300px;
+  border: 1px solid grey;
+  padding: 10px;
+}
+.grid-container-guest {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 50px;
+}
+.dropdown-select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Стили для выпадающего списка при наведении */
+.dropdown-select:hover {
+  border-color: #888;
+}
+
+/* Стили для выбранных элементов списка */
+.dropdown-select:focus {
+  outline: none;
+}
+
+/* Стили для опций списка */
+.dropdown-select option {
+  padding: 10px;
+}
+
+/* Скрыть стрелку по умолчанию для выпадающего списка */
+.dropdown-select::-ms-expand {
+  display: none;
+}
+.dropdown {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.gender-selection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Стили для меток радиокнопок */
+
+/* Стили для радиокнопок */
+.gender-selection input[type="radio"] {
+  margin-right: 5px;
+}
+.gender {
+  background-color: #eeeeee;
+  padding: 10px;
+}
+ul li {
+  margin-left: 40px;
+}
+ul {
+  margin-bottom: 15px;
+}

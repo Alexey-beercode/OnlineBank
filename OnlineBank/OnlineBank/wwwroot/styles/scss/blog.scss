@@ -1,0 +1,47 @@
+.posts {
+    &_inner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post {
+        padding-top: 250px;
+
+        @media (max-width: 991px) {
+            padding-top: 100px;
+        }
+
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;  
+
+        border-bottom: 1px solid #C4C4C4;
+        padding-bottom: 80px;
+
+        &-title {
+            font-size: 30px;
+            font-weight: 600;
+
+            margin-top: 30px;
+        }
+
+        &-date {
+            margin: 10px 0 30px;
+        }
+
+        &-img {
+            width: 100%;
+
+            img {
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+        &-content {
+            p {
+                margin: 18px 0;
+            }
+        }
+    }
+}

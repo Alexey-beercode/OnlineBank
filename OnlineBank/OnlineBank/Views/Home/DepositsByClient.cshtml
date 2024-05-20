@@ -1,0 +1,130 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+        <!-- banner-section -->
+        <section class="banner-section p_relative">
+            <div class="banner-carousel owl-theme owl-carousel owl-dots-none">
+                <div class="slide-item p_relative">
+                    <div class="bg-layer" style="background-image: url(assets/images/banner/banner-1.jpg);"></div>
+                    <div class="pattern-layer">
+                        <div class="pattern-1" style="background-image: url(assets/images/shape/shape-1.png);"></div>
+                        <div class="pattern-2" style="background-image: url(assets/images/shape/shape-2.png);"></div>
+                    </div>
+                    <div class="auto-container">
+                        <div class="content-box">
+                            <h2>Открывай свои <span>Счета</span> Онлайн</h2>
+                            <p>Опробуй возможность открыть депозитный счет онлайн в один клик</p>
+                        </div> 
+                    </div>
+                </div>
+                <div class="slide-item p_relative">
+                    <div class="bg-layer" style="background-image: url(assets/images/banner/banner-2.jpg);"></div>
+                    <div class="pattern-layer">
+                        <div class="pattern-1" style="background-image: url(assets/images/shape/shape-1.png);"></div>
+                        <div class="pattern-2" style="background-image: url(assets/images/shape/shape-2.png);"></div>
+                    </div>
+                    <div class="auto-container">
+                        <div class="content-box">
+                            <h2>Переводи деньги со <span>Счетов</span> Онлайн</h2>
+                            <p>Опробуй возможность открыть депозитный счет онлайн в один клик</p>
+                           
+                        </div> 
+                    </div>
+                </div>
+                <div class="slide-item p_relative">
+                    <div class="bg-layer" style="background-image: url(assets/images/banner/banner-3.jpg);"></div>
+                    <div class="pattern-layer">
+                        <div class="pattern-1" style="background-image: url(assets/images/shape/shape-1.png);"></div>
+                        <div class="pattern-2" style="background-image: url(assets/images/shape/shape-2.png);"></div>
+                    </div>
+                    <div class="auto-container">
+                        <div class="content-box">
+                          <h2>Пополняй <span>Счета</span> Онлайн</h2>
+                          <p>Опробуй возможность открыть депозитный счет онлайн в один клик</p>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- banner-section end -->
+
+
+
+        <!-- calculator-section -->
+        <section class="calculator-section pt_120 pb_120">
+            <div class="light-icon float-bob-y" style="background-image: url(assets/images/icons/icon-1.png);"></div>
+            <div class="auto-container">
+                <div class="inner-container">
+                    <div class="shape" style="background-image: url(assets/images/shape/shape-3.png);"></div>
+                    <div class="row clearfix">
+                        <div class="col-lg-6 col-md-12 col-sm-12 content-column">
+                            <div class="content_block_two">
+                                <div class="content-box">
+                                    <div class="sec-title mb_50">
+                                        <h2>Онлайн калькулятор депозита</h2>
+                                    </div>
+                                    <div class="calculator-inner">
+                                        <form id="loan-form">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="number" id="amount" placeholder="Loan amount">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" id="years" placeholder="Number of months">
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="number" id="interest" placeholder="Interest rate">
+                                                </div>
+                                            </div>
+                                            <div class="form-group d-flex">
+                                                <input type="submit" value="Calculate" class="theme-btn btn-one mr_20">
+                                            </div> 
+                                        </form>
+                                        <div id="results">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="number" placeholder="Monthly Installment is" id="monthly-payment" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group none">
+                                                <div class="input-group">
+                                                    <input type="number" id="total-payment" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group none">
+                                                <div class="input-group">
+                                                    <input type="number" id="total-interest" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 image-column">
+                            <figure class="image-box"><img src="assets/images/resource/calculator-1.jpg" alt=""></figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- calculator-section end -->
+        
+        <div class="scroll-to-top">
+            <div>
+                <div class="scroll-top-inner">
+                    <div class="scroll-bar">
+                        <div class="bar-inner"></div>
+                    </div>
+                    <div class="scroll-bar-text">Go To Top</div>
+                </div>
+            </div>
+        </div>
+        <!-- Scroll to top end -->
+        
+
+
