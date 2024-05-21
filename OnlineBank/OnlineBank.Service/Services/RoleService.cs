@@ -58,7 +58,7 @@ public class RoleService
         }
 
         var isRoleHasUser = await _roleRepository.CheckIsRoleHasUser(role.Id, userId);
-        if (!isRoleHasUser)
+        if (isRoleHasUser)
         {
             throw new Exception("Не найдено такой роли у пользователя");
         }

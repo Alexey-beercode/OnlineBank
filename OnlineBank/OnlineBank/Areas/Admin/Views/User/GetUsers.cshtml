@@ -29,7 +29,7 @@
                                         <td>
                                             @foreach (var role in userViewModel.Roles)
                                             {
-                                                @role.Name
+                                                @role.Name<br/>
                                             }
                                         </td>
                                         <td><a href="@Url.Action("Update","User",new{userId=userViewModel.User.Id})">Редактировать</a></td>

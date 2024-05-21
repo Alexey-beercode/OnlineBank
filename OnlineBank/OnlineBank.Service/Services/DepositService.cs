@@ -56,6 +56,25 @@ public class DepositService
         return depositByClientViewModels;
 
     }
+    public async Task<DepositViewModel> GetDepositsAsync()
+    {
+        var deposits = await _depositRepository.GetAll(DataStatusForRequest.Default);
+        var depositByClientViewModels = new DepositViewModel();
+        
+        depositByClientViewModels.Deposits = new List<DepositByClienViewModel>();
+        foreach (var depositByClient in deposits)
+        {
+            var depositType = await _depositTypeRepository.GetById(depositByClient.TypeId);
+            var totalAmountAtEnd = await CalculateTotalAmount(depositByClient.Balance,
+                (int)(depositByClient.Time.TotalDays / 30), depositType.Name);
+            var depositByClientViewModel = new DepositByClienViewModel()
+                { Deposit = depositByClient, DepositType = depositType ,TotalAmountAtEnd = totalAmountAtEnd};
+            depositByClientViewModels.Deposits.Add(depositByClientViewModel);
+        }
+        
+        return depositByClientViewModels;
+
+    }
     public async Task<decimal> CalculateTotalAmount(decimal principalAmount, int depositTermInMonths, string depositTypeName)
     {
         var depositType = await _depositTypeRepository.GetByName(depositTypeName);
@@ -170,4 +189,5 @@ public class DepositService
     {
         return await _depositTypeRepository.GetAll(DataStatusForRequest.Default);
     }
+    
 }

@@ -69,8 +69,9 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> Update(UpdateUserViewModel viewModel)
     {
-        var role = viewModel.NewRole;
+        var roleid = viewModel.NewRoleId;
         var userId = viewModel.User.Id;
+        var role = (await _roleService.GetAll()).FirstOrDefault(a => a.Id == roleid);
         var isUserHasRole = await _userService.CheckUserHasRole(userId, role.Name);
         if (!isUserHasRole)
         {

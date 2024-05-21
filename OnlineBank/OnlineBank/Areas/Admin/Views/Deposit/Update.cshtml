@@ -1,0 +1,82 @@
+﻿@model OnlineBank.Data.ViewModels.UpdateDepositViewModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="modal fade" id="validationErrorsModal" tabindex="-1" aria-labelledby="validationErrorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="validationErrorsModalLabel">Ошибки валидации</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="validationSummary" class="text-danger">@Html.ValidationSummary(false, "", new { @class = "text-danger" })</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="boxed_wrapper ltr">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Редактирование депозита</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form id="depositForm" asp-controller="Client" asp-action="Update" method="post">
+                            <input type="hidden" asp-for="DepositId" value="@Model.DepositId">
+                            <div class="card-body">
+                                
+                                <div class="form-group">
+                                    <label asp-for="DepositTypeId">Тип депозита</label>
+                                    <select asp-for="DepositTypeId" class="form-control" id="depositType">
+                                        @foreach (var depositType in Model.DepositTypes)
+                                        {
+                                            <option value="@depositType.Id">@depositType.Name</option>
+                                        }
+                                    </select>
+                                
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Balance">Сумма на дипозите</label>
+                                    <input asp-for="Balance" type="number" class="form-control" id="balance" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="InterestRate">Процентная ставка</label>
+                                    <input asp-for="InterestRate" type="number" class="form-control" id="balance" placeholder="Введите имя">
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <text>$('#validationErrorsModal').modal('show'); </text>
+            }
+        })    
+   
+    </script>
+}
