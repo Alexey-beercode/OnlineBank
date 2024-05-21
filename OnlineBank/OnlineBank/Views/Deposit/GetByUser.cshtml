@@ -50,7 +50,7 @@
                          }
                         
                         <td><a href="@Url.Action("WithdrawFromDeposit","Deposit",new {depositId=depositWithTypeViewModel.Deposit.Id})">Снять</a></td>
-                        <td><a href=""><i class="fas fa-trash-alt"></i></a></td>
+                        <td><a href="@Url.Action("Delete","Deposit",new {id=depositWithTypeViewModel.Deposit.Id})"><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                 }
             }
