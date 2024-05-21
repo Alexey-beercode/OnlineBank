@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineBank.Data.ViewModels;
 using OnlineBank.Service.Service;
 using OnlineBank.Service.Services;
 
 namespace OnlineBank.Controllers;
 
+[Authorize]
 public class AccountController : Controller
 {
     private readonly ClientService _clientService;
@@ -22,6 +24,15 @@ public class AccountController : Controller
     {
         try
         {
+            string userIdString = User.FindFirst("UserId")?.Value;
+            var guidId = Guid.Parse(userIdString);
+            var user = await _userService.GetByIdAsync(guidId);
+        
+            if (user.ClientId.Equals(Guid.Empty))
+            {
+                return Redirect($"/User/CreateClient/");
+            }
+            
             var accountViewModel = new AccountsViewModel();
             
             var id = await GetClientId();
@@ -87,6 +98,15 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Create()
     {
+        string userIdString = User.FindFirst("UserId")?.Value;
+        var guidId = Guid.Parse(userIdString);
+        var user = await _userService.GetByIdAsync(guidId);
+        
+        if (user.ClientId.Equals(Guid.Empty))
+        {
+            return Redirect($"/User/CreateClient/");
+        }
+        
         var clientId = await GetClientId();
         await _accountService.Create(clientId);
 

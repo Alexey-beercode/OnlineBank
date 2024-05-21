@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineBank.Data.Entity;
 using OnlineBank.Data.ViewModels;
 using OnlineBank.Service.Service;
@@ -6,6 +7,7 @@ using OnlineBank.Service.Services;
 
 namespace OnlineBank.Controllers;
 
+[Authorize]
 public class DepositController:Controller
 {
     private readonly DepositService _depositService;
@@ -30,6 +32,15 @@ public class DepositController:Controller
     {
         try
         {
+            string userIdString = User.FindFirst("UserId")?.Value;
+            var guidId = Guid.Parse(userIdString);
+            var user = await _userService.GetByIdAsync(guidId);
+        
+            if (user.ClientId.Equals(Guid.Empty))
+            {
+                return Redirect($"/User/CreateClient/");
+            }
+            
             var id = await GetClientId();
             
             var depositsByUser = await _depositService.GetDepositsByClientAsync(id);
@@ -113,6 +124,15 @@ public class DepositController:Controller
     [HttpGet]
     public async Task<IActionResult> Create()
     {
+        string userIdString = User.FindFirst("UserId")?.Value;
+        var guidId = Guid.Parse(userIdString);
+        var user = await _userService.GetByIdAsync(guidId);
+        
+        if (user.ClientId.Equals(Guid.Empty))
+        {
+            return Redirect($"/User/CreateClient/");
+        }
+        
         var types = await _depositService.GetDepositTypes();
         return View(new CreateDepositViewModel() { DepositTypes = types });
     }
