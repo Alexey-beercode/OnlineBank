@@ -4,7 +4,7 @@ using OnlineBank.Data.ViewModel;
 using OnlineBank.DataManagment.Repositories.Implementations;
 using OnlineBank.Service.Mapper;
 
-namespace OnlineBank.Service.Service;
+namespace OnlineBank.Service.Services;
 
 public class ClientService
 {
@@ -103,5 +103,10 @@ public class ClientService
 
         await _clientRepository.Update(client);
         return await _clientRepository.GetAll(DataStatusForRequest.Default);
+    }
+
+    public async Task<List<Client>> SearchByName(string name)
+    {
+        return await _clientRepository.SearchByName(name);
     }
 }

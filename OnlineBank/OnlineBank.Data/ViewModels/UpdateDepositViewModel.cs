@@ -9,4 +9,5 @@ public class UpdateDepositViewModel
     public Guid DepositTypeId { get; set; }
     public decimal Balance { get; set; }
     public decimal InterestRate { get; set; }
+    public int MounthCount { get; set; }
 }
