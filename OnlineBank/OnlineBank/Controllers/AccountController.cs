@@ -24,18 +24,14 @@ public class AccountController : Controller
     {
         try
         {
-            string userIdString = User.FindFirst("UserId")?.Value;
-            var guidId = Guid.Parse(userIdString);
-            var user = await _userService.GetByIdAsync(guidId);
-        
-            if (user.ClientId.Equals(Guid.Empty))
+            var accountViewModel = new AccountsViewModel();
+            
+            var id = await GetClientId();
+            if (id.Equals(Guid.Empty))
             {
                 return Redirect($"/User/CreateClient/");
             }
             
-            var accountViewModel = new AccountsViewModel();
-            
-            var id = await GetClientId();
             var accountsByUser = await _accountService.GetByClientId(id);
             var client = await _clientService.GetByIdAsync(id.ToString());
             
@@ -98,17 +94,13 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        string userIdString = User.FindFirst("UserId")?.Value;
-        var guidId = Guid.Parse(userIdString);
-        var user = await _userService.GetByIdAsync(guidId);
-        
-        if (user.ClientId.Equals(Guid.Empty))
+        var id = await GetClientId();
+        if (id.Equals(Guid.Empty))
         {
             return Redirect($"/User/CreateClient/");
         }
         
-        var clientId = await GetClientId();
-        await _accountService.Create(clientId);
+        await _accountService.Create(id);
 
         return Redirect($"/Account/GetByUser/");
     }
