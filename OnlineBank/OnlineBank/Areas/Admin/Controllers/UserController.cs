@@ -16,10 +16,12 @@ namespace OnlineBank.Areas.Admin.Controllers;
 public class UserController : Controller
 {
     private readonly UserService _userService;
+    private readonly RoleService _roleService;
 
-    public UserController(UserService userService)
+    public UserController(UserService userService, RoleService roleService)
     {
         _userService = userService;
+        _roleService = roleService;
     }
 
     [HttpGet]
@@ -37,12 +39,32 @@ public class UserController : Controller
         try
         {
             var users = await _userService.GetAll();
-            return View(users);
+            var usersViewModel = new UsersViewModel();
+            foreach (var user in users)
+            {
+                var roles = await _userService.GetRolesByUser(user.Id);
+                usersViewModel.UserViewModels.Add(new UserViewModel(){Roles = roles,User = user});
+            }
+
+            usersViewModel.Roles = await _roleService.GetAll();
+            return View(usersViewModel);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Update(Guid userId)
+    {
+        var user = await _userService.GetByIdAsync(userId);
+        var rolesByUser = await _userService.GetRolesByUser(userId);
+        var roles = await _roleService.GetAll();
+        var userModel = new UserViewModel() { Roles = roles, User = user };
+        var listUserModel = new List<UserViewModel>();
+        listUserModel.Add(new UserViewModel(){Roles = rolesByUser,User = user});
+        return View(new UsersViewModel(){Roles = roles, UserViewModels = listUserModel});
     }
 }

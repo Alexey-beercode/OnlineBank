@@ -33,7 +33,7 @@
                     <tr>
                         <td>@account.Number</td>
                         <td>@account.Balance</td>
-                        <td><a href="">Транзакции</a></td>
+                        <td><a href="@Url.Action("GetByAccount","Transaction",new {accountId=account.Id})">Транзакции</a></td>
                         <td><a href="">Пополнить</a></td>
                         <td><a href="">Снять</a></td>
                         <td><a href=""><i class="fas fa-trash-alt"></i></a></td>

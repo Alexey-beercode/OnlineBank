@@ -100,4 +100,21 @@ public class DepositController:Controller
         depositByClientViewModels.CLientName = client.Name;
         return View("GetByUser",depositByClientViewModels);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Create()
+    {
+        var types = await _depositService.GetDepositTypes();
+        return View(new CreateDepositViewModel() { DepositTypes = types });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateDepositViewModel viewModel)
+    {
+        var typeName = viewModel.SelectedDepositType;
+        var time = DateTime.Now.AddMonths(viewModel.MounthCount) - DateTime.Now;
+        var clientId =await GetClientId();
+        var deposits = await _depositService.Create(typeName, clientId, time, viewModel.Balance);
+        return RedirectToAction("GetByUser");
+    }
 }

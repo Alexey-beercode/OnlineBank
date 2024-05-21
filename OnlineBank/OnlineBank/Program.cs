@@ -11,12 +11,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<RoleRepository>();
-
+builder.Services.AddScoped<AccountRepository>();
+builder.Services.AddScoped<DepositTypeRepository>();
+builder.Services.AddScoped<DepositRepository>();
+builder.Services.AddScoped<TransactionRepository>();
+builder.Services.AddScoped<TransactionTypeRepository>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ClientService>();
-
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<DepositService>();
+builder.Services.AddScoped<TransactionService>();
+builder.Services.AddScoped<RoleService>();
+;
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 string? deviceConnection = builder.Configuration.GetConnectionString("ConnectionString");
 builder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseNpgsql(deviceConnection); });

@@ -1,0 +1,125 @@
+﻿@model OnlineBank.Data.ViewModels.CreateDepositViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="modal fade" id="validationErrorsModal" tabindex="-1" aria-labelledby="validationErrorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="validationErrorsModalLabel">Ошибки валидации</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="validationSummary" class="text-danger">@Html.ValidationSummary(false, "", new { @class = "text-danger" })</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="boxed_wrapper ltr">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Открытие депозита</h3>
+                            <h4 class="card-title">Процентная ставка по данному депозиту: <span id="interestRate">0%</span></h4>
+                            <h5 class="card-title">Сумма по окончании срока: <span id="totalAmount">0</span></h5>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form id="depositForm" asp-controller="Deposit" asp-action="Create" method="post">
+                            <input type="hidden" asp-for="DepositTypes" value="@Model.DepositTypes">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="balance">Сумма</label>
+                                    <input asp-for="Balance" type="number" class="form-control" id="balance" placeholder="Введите сумму">
+                                </div>
+                                <div class="form-group">
+                                    <label for="depositType">Тип депозита</label>
+                                    <select asp-for="SelectedDepositType" class="form-control" id="depositType">
+                                        @foreach (var type in Model.DepositTypes)
+                                        {
+                                            <option value="@type.Name">@type.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mounthCount">Количество месяцев</label>
+                                    <input asp-for="MounthCount" type="number" class="form-control" id="mounthCount" placeholder="Введите кол-во месяцев">
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Пополнить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#balance, #depositType, #mounthCount').on('input change', function () {
+                calculateInterest();
+            });
+
+            $('#depositForm').on('submit', function (e) {
+                var balance = $('#balance').val().trim();
+                var mounthCount = $('#mounthCount').val().trim();
+                var errors = [];
+
+                if (!balance) {
+                    errors.push("Поле 'Сумма' не может быть пустым.");
+                }
+
+                if (!mounthCount) {
+                    errors.push("Поле 'Количество месяцев' не может быть пустым.");
+                }
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    var validationSummary = $('#validationSummary');
+                    validationSummary.html('');
+                    errors.forEach(function (error) {
+                        validationSummary.append('<div>' + error + '</div>');
+                    });
+                    $('#validationErrorsModal').modal('show');
+                }
+            });
+
+            function calculateInterest() {
+                var balance = parseFloat($('#balance').val());
+                var interestRate = parseFloat($('#depositType').val());
+                var mounthCount = parseInt($('#mounthCount').val());
+
+                if (isNaN(balance) || isNaN(interestRate) || isNaN(mounthCount)) {
+                    $('#interestRate').text('0%');
+                    $('#totalAmount').text('0');
+                    return;
+                }
+
+                var annualInterestRate = interestRate;
+                var depositTermInYears = mounthCount / 12.0;
+                var totalAmount = balance * Math.pow((1 + annualInterestRate / 100), depositTermInYears);
+
+                $('#interestRate').text(annualInterestRate + '%');
+                $('#totalAmount').text(totalAmount.toFixed(2));
+            }
+        });
+    </script>
+}

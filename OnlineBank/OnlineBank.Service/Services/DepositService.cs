@@ -95,7 +95,7 @@ public class DepositService
         {
             throw new Exception("Невозможно пополнить счет");
         }
-        await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: false);
+        await _transactionService.CreateDepositUpTransaction(accountId, amount, note);
         deposit.Balance += amount;
         var interestRateAndTotalAmount = await CalculateInterestEarned(deposit.Balance,(int)(deposit.Time.TotalDays /30) , depositType.Name);
         deposit.InterestRate = interestRateAndTotalAmount.Item1;
@@ -149,5 +149,10 @@ public class DepositService
     {
         var deposit = await _depositRepository.GetById(depositId);
         return await _depositTypeRepository.GetById(deposit.TypeId);
+    }
+
+    public async Task<List<DepositType>> GetDepositTypes()
+    {
+        return await _depositTypeRepository.GetAll(DataStatusForRequest.Default);
     }
 }

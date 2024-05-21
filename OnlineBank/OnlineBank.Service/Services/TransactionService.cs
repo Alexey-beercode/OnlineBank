@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using OnlineBank.Data.Entity;
+using OnlineBank.Data.ViewModels;
 using OnlineBank.DataManagment.Repositories.Implementations;
+using OnlineBank.Service.Service;
 
 namespace OnlineBank.Service.Services;
 
@@ -8,11 +10,17 @@ public class TransactionService
 {
     private readonly TransactionRepository _transactionRepository;
     private readonly TransactionTypeRepository _transactionTypeRepository;
+    private readonly DepositRepository _depositRepository;
+    private readonly AccountRepository _accountRepository;
+    private readonly ClientService _clientService;
 
-    public TransactionService(TransactionTypeRepository transactionTypeRepository, TransactionRepository transactionRepository)
+    public TransactionService(TransactionTypeRepository transactionTypeRepository, TransactionRepository transactionRepository, DepositRepository depositRepository, AccountRepository accountRepository, ClientService clientService)
     {
         _transactionTypeRepository = transactionTypeRepository;
         _transactionRepository = transactionRepository;
+        _depositRepository = depositRepository;
+        _accountRepository = accountRepository;
+        _clientService = clientService;
     }
 
     public async Task CreateAcoountUpTransaction(Guid accountId,decimal amount, string note)
@@ -97,5 +105,75 @@ public class TransactionService
         var randomPart = GenerateNumber();
 
         return $"{datePart}-{randomPart}";
+    }
+
+    public async Task<TransactionsViewModel> GetByClienIdAsync(Guid clientId)
+    {
+        var client = await _clientService.GetByIdAsync(clientId.ToString());
+        var depositsByCLient = await _depositRepository.GetByClientId(clientId);
+        var accountsByClient = await _accountRepository.GetByCLientId(clientId);
+        var transactionsByUser = new List<Transaction>();
+        var transactionViewModels = new List<TransactionViewModel>();
+        foreach (var deposit in depositsByCLient)
+        {
+            var transactionsByDeposit = await _transactionRepository.GetByDepositId(deposit.Id);
+            transactionsByUser.AddRange(transactionsByDeposit);
+        }
+
+        foreach (var account in accountsByClient)
+        {
+            var transactionsByAccount = await _transactionRepository.GetByAccountId(account.Id);
+            transactionsByUser.AddRange(transactionsByAccount);
+        }
+
+        foreach (var transaction in transactionsByUser)
+        {
+            var transactionType = await _transactionTypeRepository.GetById(transaction.TypeId);
+            var depositNumber = "";
+            if (transaction.DepositId!=default)
+            {
+                 depositNumber= (await _depositRepository.GetById(transaction.DepositId)).Number;
+            }
+            else
+            {
+                depositNumber = (await _accountRepository.GetById(transaction.AccountId)).Number;
+            }
+            transactionViewModels.Add(new TransactionViewModel(){DepositNumber = depositNumber,Transaction = transaction,TransactionType = transactionType});
+            
+        }
+
+        return new TransactionsViewModel()
+            { ClientSurname = client.Surname, ClientName = client.Name, TransactionViewModels = transactionViewModels };
+    }
+
+    public async Task<TransactionsViewModel> GetByDepositOrAccount(Guid clientId,Guid depositId = default, Guid accountId = default)
+    {
+        var client = await _clientService.GetByIdAsync(clientId.ToString());
+        var transactions = new List<Transaction>();
+        var transactionViewModels = new List<TransactionViewModel>();
+        if (accountId!=default)
+        {
+            transactions = await _transactionRepository.GetByAccountId(accountId);
+        }
+        else
+        {
+            transactions = await _transactionRepository.GetByDepositId(depositId);
+        }
+        foreach (var transaction in transactions)
+        {
+            var transactionType = await _transactionTypeRepository.GetById(transaction.TypeId);
+            var depositNumber = "";
+            if (transaction.DepositId!=default)
+            {
+                depositNumber= (await _depositRepository.GetById(transaction.DepositId)).Number;
+            }
+            else
+            {
+                depositNumber = (await _accountRepository.GetById(transaction.AccountId)).Number;
+            }
+            transactionViewModels.Add(new TransactionViewModel(){DepositNumber = depositNumber,Transaction = transaction,TransactionType = transactionType});
+        }
+        return new TransactionsViewModel()
+            { ClientSurname = client.Surname, ClientName = client.Name, TransactionViewModels = transactionViewModels };
     }
 }

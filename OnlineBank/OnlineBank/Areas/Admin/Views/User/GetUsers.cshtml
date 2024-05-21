@@ -1,5 +1,47 @@
-﻿@model System.Collections.Generic.List<OnlineBank.Data.Entity.User>
+﻿@model OnlineBank.Data.ViewModels.UsersViewModel
 
 @{
     Layout = "_AdminLayout";
 }
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Логин</th>
+                                <th>Роли</th>
+                                <th>Редактировать</th>
+                                <th>Удалить</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model.UserViewModels.Count != 0)
+                            {
+                                @foreach (var userViewModel in Model.UserViewModels)
+                                {
+                                    <tr>
+                                        <td>@userViewModel.User.Login</td>
+                                        <td>
+                                            @foreach (var role in userViewModel.Roles)
+                                            {
+                                                @role.Name
+                                            }
+                                        </td>
+                                        <td><a href="@Url.Action("Update","User",new{userId=userViewModel.User.Id})">Редактировать</a></td>
+                                        <td><a style="align-content: center" href=""><i class="fas fa-trash-alt"></i></a></td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

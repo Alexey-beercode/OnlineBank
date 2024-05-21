@@ -1,4 +1,4 @@
-﻿@model OnlineBank.Data.ViewModels.DepositOperationViewModel
+﻿@model OnlineBank.Data.ViewModels.AccountOperationViewModel
 @{
     Layout = "_Layout";
 }
@@ -30,21 +30,21 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Снятие с депозита</h3>
+                            <h3 class="card-title">Снятие со счета</h3>
                             <h4 class="card-title">Текущий баланс : @Model.Balance</h4>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
                         <form id="withdrawForm" asp-controller="Deposit" asp-action="WithdrawFromDeposit" method="post">
-                            <input type="hidden" asp-for="DepositId" value="@Model.DepositId">
+                            <input type="hidden" asp-for="AccountId" value="@Model.AccountId">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="amount">Сумма</label>
+                                    <label for="exampleInputEmail1">Сумма</label>
                                     <input asp-for="Amount" type="number" class="form-control" id="amount" placeholder="Введите сумму">
                                 </div>
                                 <div class="form-group">
-                                    <label for="note">Комментарий</label>
-                                    <input asp-for="Note" type="text" class="form-control" id="note" placeholder="">
+                                    <label for="exampleInputPassword1">Комментарий</label>
+                                    <input asp-for="Note" type="text" class="form-control" id="note" placeholder="Комментарий">
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Снять</button>
@@ -70,14 +70,20 @@
             }
 
             $('#withdrawForm').on('submit', function (e) {
-                var amount = $('#amount').val().trim();
                 var balance = @Model.Balance;
+                var amount = parseFloat($('#amount').val());
+                var note = $('#note').val();
+
                 var errors = [];
 
-                if (!amount) {
-                    errors.push("Поле 'Сумма' не может быть пустым.");
-                } else if (parseFloat(amount) > balance) {
+                if (isNaN(amount) || amount <= 0) {
+                    errors.push("Введите корректную сумму для снятия.");
+                } else if (amount > balance) {
                     errors.push("Сумма снятия не может превышать текущий баланс.");
+                }
+
+                if (!$('#amount').val().trim()) {
+                    errors.push("Поле 'Сумма' не может быть пустым.");
                 }
 
                 if (errors.length > 0) {

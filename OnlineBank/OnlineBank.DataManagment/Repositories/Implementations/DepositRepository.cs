@@ -52,6 +52,6 @@ public class DepositRepository:IBaseRepository<Deposit>
 
     public async Task<List<Deposit>> GetByClientId(Guid clientId)
     {
-        return await _dbContext.Deposits.Where(a => a.ClientId == clientId).ToListAsync();
+        return await _dbContext.Deposits.Where(a => a.ClientId == clientId&&!a.IsClosed).ToListAsync();
     }
 }

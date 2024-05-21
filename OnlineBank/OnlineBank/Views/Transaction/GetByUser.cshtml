@@ -1,0 +1,51 @@
+﻿@model OnlineBank.Data.ViewModels.TransactionsViewModel
+@{
+    Layout = "_ProfileLayout";
+}
+@section ClientName
+{
+    <a href="@Url.Action("Profile","User")" class="d-block">@Model.ClientSurname @Model.ClientName</a>
+}
+<section class="content">
+<div class="container-fluid">
+<div class="row">
+<div class="col-12">
+<div class="card">
+<!-- /.card-header -->
+<div class="card-body">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Сумма</th>
+                <th>Тип</th>
+                <th>Номер счета</th>
+                <th>Дата</th>
+                <th>Комментарий</th>
+                <th>Прошла</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model.TransactionViewModels.Count != 0)
+            {
+                @foreach (var transactionViewModel in Model.TransactionViewModels)
+                {
+                    <tr>
+                        <td>@transactionViewModel.Transaction.Number</td>
+                        <td>@transactionViewModel.Transaction.Amount</td>
+                        <td>@transactionViewModel.TransactionType.Name</td>
+                        <td>@transactionViewModel.DepositNumber</td>
+                        <td>@transactionViewModel.Transaction.Date</td>
+                        <td>@transactionViewModel.Transaction.Note</td>
+                        <td>@(transactionViewModel.Transaction.IsCanceled? "Нет":"Да")</td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>

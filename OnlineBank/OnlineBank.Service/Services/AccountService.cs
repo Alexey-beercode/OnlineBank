@@ -39,7 +39,7 @@ public class AccountService
         return account;
     }
 
-    public async Task<Account> UpToAccountBalance(Guid accountId, decimal amount,string note)
+    public async Task<List<Account>> UpToAccountBalance(Guid accountId, decimal amount,string note)
     {
         var account = await _accountRepository.GetById(accountId);
         if (account is null || account.IsClosed)
@@ -49,10 +49,11 @@ public class AccountService
         await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: false);
         account.Balance += amount;
         await _accountRepository.Update(account);
-        return account;
+        var accounts = await _accountRepository.GetByCLientId(account.ClientId);
+        return accounts;
 
     }
-    public async Task<Account> WithdrawFromAccount(Guid accountId, decimal amount,string note)
+    public async Task<List<Account>> WithdrawFromAccount(Guid accountId, decimal amount,string note)
     {
         var account = await _accountRepository.GetById(accountId);
         if (account is null)
@@ -67,7 +68,8 @@ public class AccountService
 
         account.Balance -= amount;
         await _accountRepository.Update(account);
-        return account;
+        var accounts = await _accountRepository.GetByCLientId(account.ClientId);
+        return accounts;
     }
 
     public async Task<List<Account>> GetAll()
