@@ -1,4 +1,5 @@
 ﻿using OnlineBank.Data.Entity;
+using OnlineBank.Data.Enum;
 using OnlineBank.Data.ViewModel;
 using OnlineBank.DataManagment.Repositories.Implementations;
 using OnlineBank.Service.Mapper;
@@ -71,5 +72,11 @@ public class ClientService
 
         user.ClientId = Guid.Empty;
         await _userRepository.Update(user);
+    }
+
+    public async Task<List<Client>> GetAll()
+    {
+        var clients = await _clientRepository.GetAll(DataStatusForRequest.Default);
+        return clients;
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBank.Data.ViewModel;
+using OnlineBank.Data.ViewModels;
 using OnlineBank.Models;
 using OnlineBank.Service.Service;
 using OnlineBank.Service.Services;
@@ -97,7 +98,8 @@ public class UserController : Controller
                 return Redirect($"/User/CreateClient/");
             }
 
-            return View();
+            var client = await _clientService.GetByIdAsync(currentUser.ClientId.ToString());
+            return View(new ProfileViewModel(){Name = client.Name,Surname = client.Surname});
         }
         catch (Exception ex)
         {

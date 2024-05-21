@@ -48,8 +48,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Admin\Controllers\" />
-      <Folder Include="Views\Deposit\" />
+      <Folder Include="Areas\" />
+      <Folder Include="Areas\Admin\Pages\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Areas\Admin\Views\Create.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\Home\Index.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\Users.cshtml" />
     </ItemGroup>
 
 </Project>

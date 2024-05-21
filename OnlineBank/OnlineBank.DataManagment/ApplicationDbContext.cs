@@ -57,7 +57,7 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         modelBuilder.Entity<DepositType>().HasData(new DepositType()
         {
             Id = Guid.NewGuid(),
-            Name = "Фиксированной процентной ставкой ",
+            Name = "С Фиксированной процентной ставкой ",
         });
         modelBuilder.Entity<DepositType>().HasData(new DepositType()
         {

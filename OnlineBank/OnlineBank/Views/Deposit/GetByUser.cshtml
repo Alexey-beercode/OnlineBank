@@ -1,0 +1,62 @@
+﻿@model OnlineBank.Data.ViewModels.DepositViewModel
+
+@{
+    Layout = "_ProfileLayout";
+}
+@section ClientName
+{
+    <a href="@Url.Action("Profile","User")" class="d-block">@Model.ClientSurname @Model.CLientName</a>
+}
+<section class="content">
+<div class="container-fluid">
+<div class="row">
+<div class="col-12">
+<div class="card">
+<!-- /.card-header -->
+<div class="card-body">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Баланс</th>
+                <th>Тип депозита</th>
+                <th>Процентная ставка</th>
+                <th>Просмотреть транзакции</th>
+                <th>Пополнить</th>
+                <th>Снять деньги</th>
+                <th>Закрыть счет</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model.Deposits.Count != 0)
+            {
+                @foreach (var depositWithTypeViewModel in Model.Deposits)
+                {
+                    <tr>
+                        <td>@depositWithTypeViewModel.Deposit.Number</td>
+                        <td>@depositWithTypeViewModel.Deposit.Balance</td>
+                        <td>@depositWithTypeViewModel.DepositType.Name</td>
+                        <td>@depositWithTypeViewModel.Deposit.InterestRate</td>
+                        <td><a href="">Транзакции</a></td>
+                        @if (@depositWithTypeViewModel.DepositType.Name == "С Фиксированной процентной ставкой ")
+                        { 
+                            <td><a href=""></a></td>
+                        }
+                         @if (@depositWithTypeViewModel.DepositType.Name != "С Фиксированной процентной ставкой ")
+                         { 
+                                                    <td><a href="">Пополнить</a></td>
+                         }
+                        
+                        <td><a href="">Снять</a></td>
+                        <td><a href=""><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>

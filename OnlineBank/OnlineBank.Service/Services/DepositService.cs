@@ -3,6 +3,7 @@ using OnlineBank.Data.Entity;
 using OnlineBank.Data.Enum;
 using OnlineBank.Data.ViewModels;
 using OnlineBank.DataManagment.Repositories.Implementations;
+using OnlineBank.Service.Exceptions;
 
 namespace OnlineBank.Service.Services;
 
@@ -10,11 +11,13 @@ public class DepositService
 {
     private readonly DepositRepository _depositRepository;
     private readonly DepositTypeRepository _depositTypeRepository;
+    private readonly TransactionService _transactionService;
 
-    public DepositService(DepositRepository depositRepository, DepositTypeRepository depositTypeRepository)
+    public DepositService(DepositRepository depositRepository, DepositTypeRepository depositTypeRepository, TransactionService transactionService)
     {
         _depositRepository = depositRepository;
         _depositTypeRepository = depositTypeRepository;
+        _transactionService = transactionService;
     }
 
     public async Task<List<DepositByClienViewModel>> GetDepositsByClientAsync(Guid clientId)
@@ -70,6 +73,43 @@ public class DepositService
         await _depositRepository.Create(deposit);
         var deposits = await _depositRepository.GetByClientId(clientId);
         return deposits;
+    }
+    public async Task<Deposit> UpToAccountBalance(Guid accountId, decimal amount,string note)
+    {
+        var deposit = await _depositRepository.GetById(accountId);
+        var depositType = await _depositTypeRepository.GetById(deposit.TypeId);
+        if (deposit is null || deposit.IsClosed)
+        {
+            throw new Exception("Счет не найден");
+        }
+        if (depositType.Name!="С возможностью пополнения")
+        {
+            throw new Exception("Невозможно пополнить счет");
+        }
+        await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: false);
+        deposit.Balance += amount;
+        var interestRateAndTotalAmount = await CalculateInterestEarned(deposit.Balance,(int)(deposit.Time.TotalDays /30) , depositType.Name);
+        deposit.InterestRate = interestRateAndTotalAmount.Item1;
+        await _depositRepository.Update(deposit);
+        return deposit;
+
+    }
+    public async Task<Deposit> WithdrawFromAccount(Guid accountId, decimal amount,string note)
+    {
+        var deposit = await _depositRepository.GetById(accountId);
+        
+        if (deposit is null)
+        {
+            throw new Exception("Счет не найден");
+        }
+        if (deposit.Balance<amount)
+        {
+            await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: true);
+            throw new AccountOperationException("Недастаточно денег на счете");
+        }
+        deposit.Balance -= amount;
+        await _depositRepository.Update(deposit);
+        return deposit;
     }
     private string GenerateNumber()
     {

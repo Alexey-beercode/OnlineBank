@@ -46,6 +46,37 @@ public class TransactionService
         };
         await _transactionRepository.Create(transaction);
     }
+    public async Task CreateDepositUpTransaction(Guid depositId,decimal amount, string note)
+    {
+        var type = await _transactionTypeRepository.GetByName("Пополнение");
+        var transaction = new Transaction()
+        {
+            DepositId = depositId,
+            Amount = amount,
+            Date = DateTime.Now,
+            IsCanceled = false,
+            Note = note,
+            Number = GenerateTransactionNumber(),
+            TypeId = type.Id
+        };
+        await _transactionRepository.Create(transaction);
+    }
+
+    public async Task CreateDeposittWithdrawTransaction(Guid depositId, decimal amount, string note, bool isCanceled)
+    {
+        var type = await _transactionTypeRepository.GetByName("Снятие");
+        var transaction = new Transaction()
+        {
+            AccountId = depositId,
+            Amount = amount,
+            Date = DateTime.Now,
+            IsCanceled = isCanceled,
+            Note = note,
+            Number = GenerateTransactionNumber(),
+            TypeId = type.Id
+        };
+        await _transactionRepository.Create(transaction);
+    }
     private string GenerateNumber()
     {
         int length = 10;

@@ -1,0 +1,50 @@
+﻿@model System.Collections.Generic.List<OnlineBank.Data.Entity.Client>
+
+@{
+    Layout = "_AdminLayout";
+}
+@section ClientName
+{
+    <a href="@Url.Action("Profile","User")" class="d-block">Панель администратора</a>
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>ФИО</th>
+                                <th>Дата рождния</th>
+                                <th>Адрес</th>
+                                <th>Телефон</th>
+                                <th>Редактировать</th>
+                                <th>Удалить</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model.Count != 0)
+                            {
+                                @foreach (var client in Model)
+                                {
+                                    <tr>
+                                        <td>@client.Name @client.Surname</td>
+                                        <td>@client.BirthDay</td>
+                                        <td>@client.Address</td>
+                                        <td>@client.Phone</td>
+                                        <td><a href="">Редактировать</a></td>
+                                        <td><a style="align-content: center" href=""><i class="fas fa-trash-alt"></i></a></td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

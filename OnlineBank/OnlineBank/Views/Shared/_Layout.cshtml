@@ -3,6 +3,9 @@
     var userRolesNames=User.Claims
         .Where(c => c.Type == ClaimTypes.Role)
         .Select(c => c.Value).ToList();
+    bool isAdmin=false;
+    if (userRolesNames.Contains("Admin") || userRolesNames.Contains("Manager"))
+        isAdmin = true;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +63,6 @@
                     <div class="outer-box">
                         <div class="logo-box">
                             <div class="shape"></div>
-                            <figure class="logo"><a href="index.html"><img src="~/assets/images/logo.png" alt=""></a></figure>
                         </div>
                         <div class="menu-area">
                             <!--Mobile Navigation Toggler-->
@@ -69,21 +71,28 @@
                                 <i class="icon-bar"></i>
                                 <i class="icon-bar"></i>
                             </div>
-                            <nav class="main-menu navbar-expand-md navbar-light clearfix">
-                                <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
-                                    <ul class="navigation clearfix">
-                                        <li><a href="@Url.Action("CreateClient","User")">Открыть депозит</a></li> 
-                                        <li><a href="contact.html">Открыть счет</a></li> 
-                                    </ul>
-                                </div>
-                            </nav>
+                                <nav class="main-menu navbar-expand-md navbar-light clearfix">
+                                    <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
+                                        <ul class="navigation clearfix">
+                                            @if (!isAdmin)
+                                            {
+                                                <li><a href="@Url.Action("CreateClient", "User")">Открыть депозит</a></li>
+                                                <li><a href="contact.html">Открыть счет</a></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </nav>
                             <div class="menu-right-content ml_70">
-                                <a href="@Url.Action("Profile","User")" class="theme-btn btn-one">Личный кабинет</a>
-                                @if (userRolesNames.Contains("Admin") || userRolesNames.Contains("Manager"))
+                                @if (!isAdmin)
                                 {
-                                    <a href="index.html" class="theme-btn btn-one">Панель администратора</a>
+                                    <a href="@Url.Action("Profile", "User")" class="theme-btn btn-one">Личный кабинет</a> 
+                                }
+                                @if (isAdmin)
+                                {
+                                    <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="theme-btn btn-one">Панель администратора</a>
                                 }
                             </div>
+                        
                         </div>
                     </div>
                 </div>
@@ -102,7 +111,7 @@
                                 <!--Keep This Empty / Menu will come through Javascript-->
                             </nav>
                             <div class="menu-right-content ml_70">
-                                <a href="index.html" class="theme-btn btn-one">Open Account</a>
+                                <a href="index.html" class="theme-btn btn-one">Личный кабинет</a>
                             </div>
                         </div>
                     </div>

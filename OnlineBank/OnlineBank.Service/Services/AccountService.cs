@@ -4,16 +4,17 @@ using OnlineBank.Data.Enum;
 using OnlineBank.DataManagment.Repositories.Implementations;
 using OnlineBank.Service.Exceptions;
 
-namespace OnlineBank.Service.Service;
+namespace OnlineBank.Service.Services;
 
 public class AccountService
 {
     private readonly AccountRepository _accountRepository;
+    private readonly TransactionService _transactionService;
 
-
-    public AccountService(AccountRepository accountRepository)
+    public AccountService(AccountRepository accountRepository, TransactionService transactionService)
     {
         _accountRepository = accountRepository;
+        _transactionService = transactionService;
     }
 
     public async Task<Account> GetById(Guid id)
@@ -45,13 +46,13 @@ public class AccountService
         {
             throw new Exception("Счет не найден");
         }
-        
+        await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: false);
         account.Balance += amount;
         await _accountRepository.Update(account);
         return account;
 
     }
-    public async Task<Account> WithdrawFromAccount(Guid accountId, decimal amount)
+    public async Task<Account> WithdrawFromAccount(Guid accountId, decimal amount,string note)
     {
         var account = await _accountRepository.GetById(accountId);
         if (account is null)
@@ -60,6 +61,7 @@ public class AccountService
         }
         if (account.Balance<amount)
         {
+            await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: true);
             throw new AccountOperationException("Недастаточно денег на счете");
         }
 

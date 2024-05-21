@@ -26,13 +26,16 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var account in Model.Accounts)
+            @if (Model.Accounts.Count != 0)
             {
-                <tr>
-                    <td>@account.Number</td>
-                    <td>@account.Balance</td>
-                    <td><a href=""><i class="fas fa-trash-alt"></i></a></td>
-                </tr>
+                @foreach (var account in Model.Accounts)
+                {
+                    <tr>
+                        <td>@account.Number</td>
+                        <td>@account.Balance</td>
+                        <td><a href=""><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                }
             }
             </tbody>
         </table>
