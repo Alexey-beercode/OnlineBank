@@ -32,16 +32,11 @@ public class DepositController:Controller
     {
         try
         {
-            string userIdString = User.FindFirst("UserId")?.Value;
-            var guidId = Guid.Parse(userIdString);
-            var user = await _userService.GetByIdAsync(guidId);
-        
-            if (user.ClientId.Equals(Guid.Empty))
+            var id = await GetClientId();
+            if (id.Equals(Guid.Empty))
             {
                 return Redirect($"/User/CreateClient/");
             }
-            
-            var id = await GetClientId();
             
             var depositsByUser = await _depositService.GetDepositsByClientAsync(id);
             return View(depositsByUser);
@@ -124,11 +119,8 @@ public class DepositController:Controller
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        string userIdString = User.FindFirst("UserId")?.Value;
-        var guidId = Guid.Parse(userIdString);
-        var user = await _userService.GetByIdAsync(guidId);
-        
-        if (user.ClientId.Equals(Guid.Empty))
+        var id = await GetClientId();
+        if (id.Equals(Guid.Empty))
         {
             return Redirect($"/User/CreateClient/");
         }
