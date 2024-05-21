@@ -39,14 +39,14 @@
                         <td>@depositWithTypeViewModel.DepositType.Name</td>
                         <td>@depositWithTypeViewModel.Deposit.InterestRate</td>
                         <td>@depositWithTypeViewModel.TotalAmountAtEnd</td>
-                        <td><a href="">Транзакции</a></td>
+                        <td><a href="@Url.Action("GetByDeposit","Transaction",new {depositId=depositWithTypeViewModel.Deposit.Id})">Транзакции</a></td>
                         @if (@depositWithTypeViewModel.DepositType.Name == "С Фиксированной процентной ставкой ")
                         { 
                             <td><a href=""></a></td>
                         }
                          @if (@depositWithTypeViewModel.DepositType.Name != "С Фиксированной процентной ставкой ")
                          { 
-                                                    <td><a href="@Url.Action("UpToDeposit","Deposit",new {depositId=depositWithTypeViewModel.Deposit.Id})">Пополнить</a></td>
+                            <td><a href="@Url.Action("UpToDeposit","Deposit",new {depositId=depositWithTypeViewModel.Deposit.Id})">Пополнить</a></td>
                          }
                         
                         <td><a href="@Url.Action("WithdrawFromDeposit","Deposit",new {depositId=depositWithTypeViewModel.Deposit.Id})">Снять</a></td>

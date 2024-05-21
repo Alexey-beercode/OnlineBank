@@ -18,9 +18,20 @@ public class AccountController : Controller
         _accountService = accountService;
     }
 
-    public IActionResult GetByUser()
+    public async Task<IActionResult> GetByUser()
     {
-        return View();
+        try
+        {
+            var id = await GetClientId();
+            
+            //var accountsByUser = await _accountService.GetByClientId(id);
+            return View();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
     private async Task<Guid> GetClientId()
     {

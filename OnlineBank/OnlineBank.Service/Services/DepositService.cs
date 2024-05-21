@@ -28,6 +28,8 @@ public class DepositService
         var client = await _clientService.GetByIdAsync(clientId.ToString());
         var depositsByClient = await _depositRepository.GetByClientId(clientId);
         var depositByClientViewModels = new DepositViewModel();
+        
+        depositByClientViewModels.Deposits = new List<DepositByClienViewModel>();
         foreach (var depositByClient in depositsByClient)
         {
             var depositType = await _depositTypeRepository.GetById(depositByClient.TypeId);
