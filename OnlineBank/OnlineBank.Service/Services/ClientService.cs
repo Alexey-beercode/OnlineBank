@@ -17,9 +17,9 @@ public class ClientService
         _userRepository = userRepository;
     }
 
-    public async Task<Client> GetByIdAsync(string userId)
+    public async Task<Client> GetByIdAsync(string clientId)
     {
-        var client = await _clientRepository.GetById(StringToGuidMapper.MapTo(userId));
+        var client = await _clientRepository.GetById(StringToGuidMapper.MapTo(clientId));
         if (client == null)
         {
             throw new Exception("Данные пользователя не найдены.");

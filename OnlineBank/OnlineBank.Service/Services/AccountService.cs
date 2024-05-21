@@ -46,7 +46,7 @@ public class AccountService
         {
             throw new Exception("Счет не найден");
         }
-        await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: false);
+        await _transactionService.CreateAcoountUpTransaction(accountId, amount, note);
         account.Balance += amount;
         await _accountRepository.Update(account);
         var accounts = await _accountRepository.GetByCLientId(account.ClientId);
@@ -60,7 +60,7 @@ public class AccountService
         {
             throw new Exception("Счет не найден");
         }
-        if (account.Balance<amount)
+        if (account.Balance < amount)
         {
             await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: true);
             throw new AccountOperationException("Недастаточно денег на счете");
@@ -68,6 +68,9 @@ public class AccountService
 
         account.Balance -= amount;
         await _accountRepository.Update(account);
+        
+        await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: false);
+        
         var accounts = await _accountRepository.GetByCLientId(account.ClientId);
         return accounts;
     }
@@ -86,11 +89,6 @@ public class AccountService
     public async Task<List<Account>> GetByClientId(Guid clientId)
     {
         var accountsByUser = await _accountRepository.GetByCLientId(clientId);
-        if (accountsByUser.Count==0)
-        {
-            throw new Exception("Не найдено счетов");
-        }
-
         return accountsByUser;
     }
 
@@ -142,5 +140,16 @@ public class AccountService
         }
 
         return stringBuilder.ToString();
+    }
+    
+    public async Task Delete(Guid id)
+    {
+        var account = await _accountRepository.GetById(id);
+        if (account is null)
+        {
+            throw new Exception("Депозит не найден ");
+        }
+
+        await _accountRepository.Delete(account);
     }
 }

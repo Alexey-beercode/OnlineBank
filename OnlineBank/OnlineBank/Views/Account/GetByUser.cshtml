@@ -34,9 +34,9 @@
                         <td>@account.Number</td>
                         <td>@account.Balance</td>
                         <td><a href="@Url.Action("GetByAccount","Transaction",new {accountId=account.Id})">Транзакции</a></td>
-                        <td><a href="">Пополнить</a></td>
-                        <td><a href="">Снять</a></td>
-                        <td><a href=""><i class="fas fa-trash-alt"></i></a></td>
+                        <td><a href="@Url.Action("UpToAccount","Account",new {accountId=account.Id})">Пополнить</a></td>
+                        <td><a href="@Url.Action("WithdrawFromAccount","Account",new {accountId=account.Id})">Снять</a></td>
+                        <td><a href="@Url.Action("Delete","Account",new {id=account.Id})"><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                 }
             }

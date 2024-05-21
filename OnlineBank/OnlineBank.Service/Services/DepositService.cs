@@ -22,12 +22,24 @@ public class DepositService
         _transactionService = transactionService;
         _clientService = clientService;
     }
+    
+    public async Task<Deposit> GetById(Guid id)
+    {
+        var deposit = await _depositRepository.GetById(id);
+        if (deposit is null)
+        {
+            throw new Exception("Депозит не найден");
+        }
 
+        return deposit;
+    }
     public async Task<DepositViewModel> GetDepositsByClientAsync(Guid clientId)
     {
         var client = await _clientService.GetByIdAsync(clientId.ToString());
         var depositsByClient = await _depositRepository.GetByClientId(clientId);
         var depositByClientViewModels = new DepositViewModel();
+        
+        depositByClientViewModels.Deposits = new List<DepositByClienViewModel>();
         foreach (var depositByClient in depositsByClient)
         {
             var depositType = await _depositTypeRepository.GetById(depositByClient.TypeId);
@@ -113,11 +125,14 @@ public class DepositService
         }
         if (deposit.Balance<amount)
         {
-            await _transactionService.CreateAcoountWithdrawTransaction(accountId, amount, note, isCanceled: true);
+            await _transactionService.CreateDeposittWithdrawTransaction(accountId, amount, note, isCanceled: true);
             throw new AccountOperationException("Недастаточно денег на счете");
         }
         deposit.Balance -= amount;
         await _depositRepository.Update(deposit);
+        
+        await _transactionService.CreateDeposittWithdrawTransaction(accountId, amount, note, isCanceled: false);
+        
         return await _depositRepository.GetByClientId(deposit.ClientId);
     }
     private string GenerateNumber()

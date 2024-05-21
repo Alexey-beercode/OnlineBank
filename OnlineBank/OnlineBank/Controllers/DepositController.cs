@@ -30,7 +30,9 @@ public class DepositController:Controller
     {
         try
         {
-            var depositsByUser = await _depositService.GetDepositsByClientAsync(await GetClientId());
+            var id = await GetClientId();
+            
+            var depositsByUser = await _depositService.GetDepositsByClientAsync(id);
             return View(depositsByUser);
         }
         catch (Exception e)
@@ -38,32 +40,37 @@ public class DepositController:Controller
             Console.WriteLine(e);
             throw;
         }
-       
     }
 
     public async Task<IActionResult> Delete(Guid id)
     {
         await _depositService.Delete(id);
-        return RedirectToAction("Profile", "User");
+        return Redirect($"/Deposit/GetByUser/");
     }
 
     [HttpGet]
     public async Task<IActionResult> UpToDeposit(Guid depositId)
     {
-        return View(new DepositOperationViewModel(){DepositId = depositId});
+        var deposit = await _depositService.GetById(depositId);
+        
+        return View(new DepositOperationViewModel(){DepositId = depositId, Balance = deposit.Balance});
     }
     [HttpGet]
     public async Task<IActionResult> WithdrawFromDeposit(Guid depositId)
     {
-        return View(new DepositOperationViewModel(){DepositId = depositId});
+        var deposit = await _depositService.GetById(depositId);
+        
+        return View(new DepositOperationViewModel(){DepositId = depositId, Balance = deposit.Balance});
     }
 
     [HttpPost]
     public async Task<IActionResult> WithdrawFromDeposit(DepositOperationViewModel depositOperationViewModel)
     {
         var deposits = await _depositService.WithdrawFromDeposit(depositOperationViewModel.DepositId,depositOperationViewModel.Amount,depositOperationViewModel.Note);
-        var client = await _clientService.GetByIdAsync(GetClientId().ToString());
+        var client = await _clientService.GetByIdAsync((await GetClientId()).ToString());
         var depositByClientViewModels = new DepositViewModel();
+
+        depositByClientViewModels.Deposits = new List<DepositByClienViewModel>();
         foreach (var depositByClient in deposits)
         {
             var depositType = await _depositService.GetTypeByDepositId(depositByClient.Id);
@@ -84,8 +91,10 @@ public class DepositController:Controller
     public async Task<IActionResult> UpToDeposit(DepositOperationViewModel depositOperationViewModel)
     {
         var deposits = await _depositService.UpToDepositBalance(depositOperationViewModel.DepositId,depositOperationViewModel.Amount,depositOperationViewModel.Note);
-        var client = await _clientService.GetByIdAsync(GetClientId().ToString());
+        var client = await _clientService.GetByIdAsync((await GetClientId()).ToString());
         var depositByClientViewModels = new DepositViewModel();
+
+        depositByClientViewModels.Deposits = new List<DepositByClienViewModel>();
         foreach (var depositByClient in deposits)
         {
             var depositType = await _depositService.GetTypeByDepositId(depositByClient.Id);

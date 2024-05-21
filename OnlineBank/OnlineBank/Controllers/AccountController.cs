@@ -18,9 +18,27 @@ public class AccountController : Controller
         _accountService = accountService;
     }
 
-    public IActionResult GetByUser()
+    public async Task<IActionResult> GetByUser()
     {
-        return View();
+        try
+        {
+            var accountViewModel = new AccountsViewModel();
+            
+            var id = await GetClientId();
+            var accountsByUser = await _accountService.GetByClientId(id);
+            var client = await _clientService.GetByIdAsync(id.ToString());
+            
+            accountViewModel.Accounts = accountsByUser;
+            accountViewModel.CLientName = client.Name;
+            accountViewModel.ClientSurname = client.Surname;   
+                
+            return View(accountViewModel);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
     private async Task<Guid> GetClientId()
     {
@@ -32,12 +50,16 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> UpToAccount(Guid accountId)
     {
-        return View(new AccountOperationViewModel(){AccountId = accountId});
+        var account = await _accountService.GetById(accountId);
+        
+        return View(new AccountOperationViewModel(){AccountId = accountId, Balance = account.Balance});
     }
     [HttpGet]
     public async Task<IActionResult> WithdrawFromAccount(Guid accountId)
     {
-        return View(new AccountOperationViewModel(){AccountId = accountId});
+        var account = await _accountService.GetById(accountId);
+        
+        return View(new AccountOperationViewModel(){AccountId = accountId, Balance = account.Balance});
     }
 
     [HttpPost]
@@ -63,8 +85,17 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        return View();
+        var clientId = await GetClientId();
+        await _accountService.Create(clientId);
+
+        return Redirect($"/Account/GetByUser/");
+    }
+    
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _accountService.Delete(id);
+        return Redirect($"/Account/GetByUser/");
     }
 }

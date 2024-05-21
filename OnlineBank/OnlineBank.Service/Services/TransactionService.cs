@@ -75,7 +75,7 @@ public class TransactionService
         var type = await _transactionTypeRepository.GetByName("Снятие");
         var transaction = new Transaction()
         {
-            AccountId = depositId,
+            DepositId = depositId,
             Amount = amount,
             Date = DateTime.Now,
             IsCanceled = isCanceled,
