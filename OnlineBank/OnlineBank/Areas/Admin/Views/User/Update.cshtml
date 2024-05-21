@@ -1,9 +1,10 @@
-﻿@model OnlineBank.Data.ViewModels.UsersViewModel
+﻿@model OnlineBank.Data.ViewModels.UpdateUserViewModel
 @{
     Layout = "_AdminLayout";
 }
 
-<div class="modal fade" id="validationErrorsModal" tabindex="-1" aria-labelledby="validationErrorsModalLabel" aria-hidden="true">
+<div class="modal fade" id="validationErrorsModal" tabindex="-1" aria-labelledby="validationErrorsModalLabel"
+     aria-hidden="true" xmlns="http://www.w3.org/1999/html">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -34,27 +35,24 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form id="depositForm" asp-controller="Deposit" asp-action="UpToDeposit" method="post">
+                        <form id="depositForm" asp-controller="User" asp-action="Update" method="post">
+                            <input type="hidden" asp-for="User.Id" value="@Model.User.Id">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="balance">Login</label>
-                                    <input type="text" class="form-control" id="balance" placeholder="Введите сумму">
+                                    <label asp-for="User.Login">Login</label>
+                                    <input asp-for="User.Login" type="text" class="form-control" id="balance" placeholder="Введите логин">
                                 </div>
                                 <div class="form-group">
-                                    <label for="depositType">Тип депозита</label>
-                                    <select asp-for="SelectedDepositType" class="form-control" id="depositType">
-                                        @foreach (var type in Model.Roles)
+                                    <label for="">Роль</label>
+                                    <select asp-for="NewRole" class="form-control" id="depositType">
+                                        @foreach (var role in Model.Roles)
                                         {
-                                            <option value="@type">@type.Name</option>
+                                            <option type="@role" value="@role">@role.Name</option>
                                         }
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="mounthCount">Количество месяцев</label>
-                                    <input asp-for="MounthCount" type="number" class="form-control" id="mounthCount" placeholder="Введите кол-во месяцев">
-                                </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Пополнить</button>
+                                    <button type="submit" class="btn btn-primary">Сохранить</button>
                                 </div>
                             </div>
                         </form>

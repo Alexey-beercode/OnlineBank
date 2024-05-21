@@ -43,7 +43,8 @@ public class UserController : Controller
             foreach (var user in users)
             {
                 var roles = await _userService.GetRolesByUser(user.Id);
-                usersViewModel.UserViewModels.Add(new UserViewModel(){Roles = roles,User = user});
+                var userViewModel = new UserViewModel() { Roles = roles, User = user };
+                usersViewModel.UserViewModels.Add(userViewModel);
             }
 
             usersViewModel.Roles = await _roleService.GetAll();
@@ -60,11 +61,27 @@ public class UserController : Controller
     public async Task<IActionResult> Update(Guid userId)
     {
         var user = await _userService.GetByIdAsync(userId);
-        var rolesByUser = await _userService.GetRolesByUser(userId);
         var roles = await _roleService.GetAll();
-        var userModel = new UserViewModel() { Roles = roles, User = user };
-        var listUserModel = new List<UserViewModel>();
-        listUserModel.Add(new UserViewModel(){Roles = rolesByUser,User = user});
-        return View(new UsersViewModel(){Roles = roles, UserViewModels = listUserModel});
+        
+        return View(new UpdateUserViewModel(){Roles = roles,User = user});
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(UpdateUserViewModel viewModel)
+    {
+        var role = viewModel.NewRole;
+        var userId = viewModel.User.Id;
+        var isUserHasRole = await _userService.CheckUserHasRole(userId, role.Name);
+        if (!isUserHasRole)
+        {
+            await _roleService.SetRoleToUser(role.Name,userId);
+           
+        }
+        var login = viewModel.User.Login;
+        var user = await _userService.GetByIdAsync(userId);
+        user.Login = login;
+        await _userService.Update(user);
+        return RedirectToAction("GetUsers");
+        
     }
 }

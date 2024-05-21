@@ -35,8 +35,8 @@
                                         <td>@client.BirthDay</td>
                                         <td>@client.Address</td>
                                         <td>@client.Phone</td>
-                                        <td><a href="">Редактировать</a></td>
-                                        <td><a style="align-content: center" href=""><i class="fas fa-trash-alt"></i></a></td>
+                                        <td><a href="@Url.Action("Update","Client",new {clientId=client.Id})">Редактировать</a></td>
+                                        <td><a style="align-content: center" href="@Url.Action("Delete","Client",new {clientId=client.Id})"><i class="fas fa-trash-alt"></i></a></td>
                                     </tr>
                                 }
                             }

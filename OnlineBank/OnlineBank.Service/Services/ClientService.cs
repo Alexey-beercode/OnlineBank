@@ -79,4 +79,29 @@ public class ClientService
         var clients = await _clientRepository.GetAll(DataStatusForRequest.Default);
         return clients;
     }
+
+    public async Task<Client> GetByNameAndSurname(string name, string surname)
+    {
+        var client =
+            (await _clientRepository.GetAll(DataStatusForRequest.Active)).FirstOrDefault(a =>
+                a.Name == name && a.Surname == surname);
+        if (client is null)
+        {
+            throw new Exception("Клиент не найден ");
+        }
+
+        return client;
+    }
+
+    public async Task<List<Client>> Update(Client client)
+    {
+        var clientFromDatabase = await _clientRepository.GetById(client.Id);
+        if (clientFromDatabase is null)
+        {
+            throw new Exception("Клиент не найден");
+        }
+
+        await _clientRepository.Update(client);
+        return await _clientRepository.GetAll(DataStatusForRequest.Default);
+    }
 }

@@ -58,11 +58,13 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         {
             Id = Guid.NewGuid(),
             Name = "С Фиксированной процентной ставкой ",
+            InterestRate = 5
         });
         modelBuilder.Entity<DepositType>().HasData(new DepositType()
         {
             Id = Guid.NewGuid(),
             Name = "С возможностью пополнения",
+            InterestRate = new decimal(3.5)
         });
 
         modelBuilder.Entity<User>().HasData(new User
