@@ -28,8 +28,28 @@ public class DepositController:Controller
     {
         var deposit = await _depositService.GetById(depositId);
         var depositTypes = await _depositService.GetDepositTypes();
-        var depositType = await _depositService.GetTypeByDepositId(depositId);
         var depositViewModel = new UpdateDepositViewModel() { DepositId = depositId,DepositTypes = depositTypes,DepositTypeId = deposit.TypeId,Balance = deposit.Balance,InterestRate = deposit.InterestRate};
         return View(depositViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(UpdateDepositViewModel viewModel)
+    {
+        var deposit = await _depositService.GetById(viewModel.DepositId);
+        deposit.InterestRate = viewModel.InterestRate;
+        deposit.Balance = viewModel.Balance;
+        if (viewModel.DepositTypeId != default)
+        {
+            deposit.TypeId = viewModel.DepositTypeId;
+        }
+
+        await _depositService.Update(deposit);
+        return RedirectToAction("GetDeposits");
+    }
+
+    public async Task<IActionResult> Delete(Guid depositId)
+    {
+        await _depositService.Delete(depositId);
+        return RedirectToAction("GetDeposits");
     }
 }

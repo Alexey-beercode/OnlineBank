@@ -33,6 +33,11 @@ public class DepositService
 
         return deposit;
     }
+
+    public async Task Update(Deposit deposit)
+    {
+        await _depositRepository.Update(deposit);
+    }
     public async Task<DepositViewModel> GetDepositsByClientAsync(Guid clientId)
     {
         var client = await _clientService.GetByIdAsync(clientId.ToString());

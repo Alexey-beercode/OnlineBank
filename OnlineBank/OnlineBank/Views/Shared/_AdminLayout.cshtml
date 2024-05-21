@@ -41,10 +41,15 @@
         
         <div class="info">
           <a href="#" class="d-block">
-            @await RenderSectionAsync("ClientName",required:false)
+            <a href="@Url.Action("Index","Home")" class="d-block">Панель администратора</a>
           </a>
         </div>
       </div>
+       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+              <div class="info">
+                <a href="@Url.Action("Index","Home",new {area=""})" class="d-block">Главная</a>
+              </div>
+            </div>
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
           <a href="@Url.Action("Logout","User")" class="d-block">Выйти</a>
