@@ -1,8 +1,10 @@
 ﻿using System.Text;
 using OnlineBank.Data.Entity;
 using OnlineBank.Data.Enum;
+using OnlineBank.Data.ViewModels;
 using OnlineBank.DataManagment.Repositories.Implementations;
 using OnlineBank.Service.Exceptions;
+using OnlineBank.Service.Service;
 
 namespace OnlineBank.Service.Services;
 
@@ -10,11 +12,13 @@ public class AccountService
 {
     private readonly AccountRepository _accountRepository;
     private readonly TransactionService _transactionService;
+    private readonly ClientService _clientService;
 
-    public AccountService(AccountRepository accountRepository, TransactionService transactionService)
+    public AccountService(AccountRepository accountRepository, TransactionService transactionService, ClientService clientService)
     {
         _accountRepository = accountRepository;
         _transactionService = transactionService;
+        _clientService = clientService;
     }
 
     public async Task<Account> GetById(Guid id)
@@ -84,6 +88,21 @@ public class AccountService
         }
 
         return accounts;
+    }
+    
+    public async Task<List<AccountWithClientViewModel>> GetAllWithClient()
+    {
+        var accountsWithClient = new List<AccountWithClientViewModel>();
+        
+        var accounts = await _accountRepository.GetAll(DataStatusForRequest.Default);
+        foreach (var account in accounts)
+        {
+            var client = await _clientService.GetByIdAsync(account.ClientId.ToString());
+            
+            accountsWithClient.Add(new AccountWithClientViewModel(){Account = account, Client = client});
+        }
+        
+        return accountsWithClient;
     }
 
     public async Task<List<Account>> GetByClientId(Guid clientId)
