@@ -50,4 +50,33 @@ public class ClientRepository:IBaseRepository<Client>
         _dbContext.Clients.Add(entity);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Client>> SearchByName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return new List<Client>();
+        }
+
+        // Разделение полного имени на части с удалением пустых элементов
+        var nameParts = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Формирование запроса с учетом количества частей
+        IQueryable<Client> query = _dbContext.Clients;
+
+        if (nameParts.Length == 1)
+        {
+            string part = nameParts[0];
+            query = query.Where(c => c.Name.StartsWith(part) || c.Surname.StartsWith(part));
+        }
+        else if (nameParts.Length >= 2)
+        {
+            string firstName = nameParts[0];
+            string lastName = nameParts[1];
+            query = query.Where(c => (c.Name.StartsWith(firstName) && c.Surname.StartsWith(lastName)) ||
+                                     (c.Name.StartsWith(lastName) && c.Surname.StartsWith(firstName)));
+        }
+
+        return await query.ToListAsync();
+    }
 }

@@ -28,7 +28,7 @@ public class DepositController:Controller
     {
         var deposit = await _depositService.GetById(depositId);
         var depositTypes = await _depositService.GetDepositTypes();
-        var depositViewModel = new UpdateDepositViewModel() { DepositId = depositId,DepositTypes = depositTypes,DepositTypeId = deposit.TypeId,Balance = deposit.Balance,InterestRate = deposit.InterestRate};
+        var depositViewModel = new UpdateDepositViewModel() { DepositId = depositId,DepositTypes = depositTypes,DepositTypeId = deposit.TypeId,Balance = deposit.Balance,InterestRate = deposit.InterestRate,MounthCount = (int)(deposit.Time.TotalDays / 30)};
         return View(depositViewModel);
     }
 
@@ -38,6 +38,7 @@ public class DepositController:Controller
         var deposit = await _depositService.GetById(viewModel.DepositId);
         deposit.InterestRate = viewModel.InterestRate;
         deposit.Balance = viewModel.Balance;
+        deposit.Time = DateTime.Today.AddMonths(viewModel.MounthCount)-DateTime.Today;
         if (viewModel.DepositTypeId != default)
         {
             deposit.TypeId = viewModel.DepositTypeId;

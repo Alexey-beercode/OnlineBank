@@ -2,6 +2,7 @@
 using OnlineBank.Data.ViewModel;
 using OnlineBank.Data.ViewModels;
 using OnlineBank.Service.Service;
+using OnlineBank.Service.Services;
 
 namespace OnlineBank.Areas.Admin.Controllers;
 
@@ -52,5 +53,12 @@ public class ClientController:Controller
     {
         await _clientService.DeleteClientAsync(clientId.ToString());
         return RedirectToAction("GetAll");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> SearchClients(string name)
+    {
+        var clients = await _clientService.SearchByName(name);
+        return View("GetAll", clients);
     }
 }
