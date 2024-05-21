@@ -1,0 +1,44 @@
+﻿@model System.Collections.Generic.List<OnlineBank.Data.ViewModels.TransactionViewModel>
+
+@{
+    Layout = "_AdminLayout";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Комментарий</th>
+                                <th>Дата</th>
+                                <th>Сумма</th>
+                                <th>Тип</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model.Count != 0)
+                            {
+                                @foreach (var transaction in Model)
+                                {
+                                    <tr>
+                                        <td>@transaction.Transaction.Number</td>
+                                        <td>@transaction.Transaction.Note</td>
+                                        <td>@transaction.Transaction.Date</td>
+                                        <td>@transaction.Transaction.Amount</td>
+                                        <td>@transaction.TransactionType.Name</td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

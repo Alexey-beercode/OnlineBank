@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using OnlineBank.Data.Entity;
+using OnlineBank.Data.Enum;
 using OnlineBank.Data.ViewModels;
 using OnlineBank.DataManagment.Repositories.Implementations;
 using OnlineBank.Service.Service;
@@ -175,5 +176,39 @@ public class TransactionService
         }
         return new TransactionsViewModel()
             { ClientSurname = client.Surname, ClientName = client.Name, TransactionViewModels = transactionViewModels };
+    }
+
+    public async Task<List<TransactionViewModel>> GetAll()
+    {
+        var transactions = await _transactionRepository.GetAll(DataStatusForRequest.Active);
+        var transactionViewModels = new List<TransactionViewModel>();
+        
+        foreach (var transaction in transactions)
+        {
+            var transactionType = await _transactionTypeRepository.GetById(transaction.TypeId);
+            var depositNumber = "";
+            if (transaction.DepositId != default)
+            {
+                var deposit = await _depositRepository.GetById(transaction.DepositId);
+                if (deposit is null)
+                {
+                    continue;
+                }
+                depositNumber= deposit.Number;
+            }
+            else
+            {
+                var account = await _accountRepository.GetById(transaction.AccountId);
+                if (account is null)
+                {
+                    continue;
+                }
+                
+                depositNumber = account.Number;
+            }
+            transactionViewModels.Add(new TransactionViewModel(){DepositNumber = depositNumber,Transaction = transaction,TransactionType = transactionType});
+        }
+
+        return transactionViewModels;
     }
 }
