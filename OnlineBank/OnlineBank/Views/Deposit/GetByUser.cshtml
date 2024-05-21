@@ -21,6 +21,7 @@
                 <th>Баланс</th>
                 <th>Тип депозита</th>
                 <th>Процентная ставка</th>
+                <th>Сумма после окончания срока</th>
                 <th>Просмотреть транзакции</th>
                 <th>Пополнить</th>
                 <th>Снять деньги</th>
@@ -37,6 +38,7 @@
                         <td>@depositWithTypeViewModel.Deposit.Balance</td>
                         <td>@depositWithTypeViewModel.DepositType.Name</td>
                         <td>@depositWithTypeViewModel.Deposit.InterestRate</td>
+                        <td>@depositWithTypeViewModel.TotalAmountAtEnd</td>
                         <td><a href="">Транзакции</a></td>
                         @if (@depositWithTypeViewModel.DepositType.Name == "С Фиксированной процентной ставкой ")
                         { 
@@ -44,10 +46,10 @@
                         }
                          @if (@depositWithTypeViewModel.DepositType.Name != "С Фиксированной процентной ставкой ")
                          { 
-                                                    <td><a href="">Пополнить</a></td>
+                                                    <td><a href="@Url.Action("UpToDeposit","Deposit",new {depositId=depositWithTypeViewModel.Deposit.Id})">Пополнить</a></td>
                          }
                         
-                        <td><a href="">Снять</a></td>
+                        <td><a href="@Url.Action("WithdrawFromDeposit","Deposit",new {depositId=depositWithTypeViewModel.Deposit.Id})">Снять</a></td>
                         <td><a href=""><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                 }

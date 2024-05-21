@@ -24,6 +24,17 @@ public class UserService
         return await _userRepository.GetAll(DataStatusForRequest.Default);
     }
 
+    public async Task<User> GetByIdAsync(Guid id)
+    {
+        var user = await _userRepository.GetById(id);
+        if (user is null)
+        {
+            throw new Exception("Пользователь не найден");
+        }
+
+        return user;
+    }
+
     public async Task<User> GetByLogin(string login)
     {
         var user = await _userRepository.GetByLogin(login);

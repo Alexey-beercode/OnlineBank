@@ -4,6 +4,7 @@ using OnlineBank.Data.Enum;
 using OnlineBank.Data.ViewModels;
 using OnlineBank.DataManagment.Repositories.Implementations;
 using OnlineBank.Service.Exceptions;
+using OnlineBank.Service.Service;
 
 namespace OnlineBank.Service.Services;
 
@@ -12,25 +13,33 @@ public class DepositService
     private readonly DepositRepository _depositRepository;
     private readonly DepositTypeRepository _depositTypeRepository;
     private readonly TransactionService _transactionService;
+    private readonly ClientService _clientService;
 
-    public DepositService(DepositRepository depositRepository, DepositTypeRepository depositTypeRepository, TransactionService transactionService)
+    public DepositService(DepositRepository depositRepository, DepositTypeRepository depositTypeRepository, TransactionService transactionService, ClientService clientService)
     {
         _depositRepository = depositRepository;
         _depositTypeRepository = depositTypeRepository;
         _transactionService = transactionService;
+        _clientService = clientService;
     }
 
-    public async Task<List<DepositByClienViewModel>> GetDepositsByClientAsync(Guid clientId)
+    public async Task<DepositViewModel> GetDepositsByClientAsync(Guid clientId)
     {
+        var client = await _clientService.GetByIdAsync(clientId.ToString());
         var depositsByClient = await _depositRepository.GetByClientId(clientId);
-        var depositByClientViewModels = new List<DepositByClienViewModel>();
+        var depositByClientViewModels = new DepositViewModel();
         foreach (var depositByClient in depositsByClient)
         {
             var depositType = await _depositTypeRepository.GetById(depositByClient.TypeId);
+            var totalAmountAtEnd = await CalculateTotalAmount(depositByClient.Balance,
+                (int)(depositByClient.Time.TotalDays / 30), depositType.Name);
             var depositByClientViewModel = new DepositByClienViewModel()
-                { Deposit = depositByClient, DepositType = depositType };
-           depositByClientViewModels.Add(depositByClientViewModel);
+                { Deposit = depositByClient, DepositType = depositType ,TotalAmountAtEnd = totalAmountAtEnd};
+           depositByClientViewModels.Deposits.Add(depositByClientViewModel);
         }
+
+        depositByClientViewModels.ClientSurname = client.Surname;
+        depositByClientViewModels.CLientName = client.Name;
 
         return depositByClientViewModels;
 
@@ -74,7 +83,7 @@ public class DepositService
         var deposits = await _depositRepository.GetByClientId(clientId);
         return deposits;
     }
-    public async Task<Deposit> UpToAccountBalance(Guid accountId, decimal amount,string note)
+    public async Task<List<Deposit>> UpToDepositBalance(Guid accountId, decimal amount,string note)
     {
         var deposit = await _depositRepository.GetById(accountId);
         var depositType = await _depositTypeRepository.GetById(deposit.TypeId);
@@ -91,10 +100,10 @@ public class DepositService
         var interestRateAndTotalAmount = await CalculateInterestEarned(deposit.Balance,(int)(deposit.Time.TotalDays /30) , depositType.Name);
         deposit.InterestRate = interestRateAndTotalAmount.Item1;
         await _depositRepository.Update(deposit);
-        return deposit;
+        return await _depositRepository.GetByClientId(deposit.ClientId);
 
     }
-    public async Task<Deposit> WithdrawFromAccount(Guid accountId, decimal amount,string note)
+    public async Task<List<Deposit>> WithdrawFromDeposit(Guid accountId, decimal amount,string note)
     {
         var deposit = await _depositRepository.GetById(accountId);
         
@@ -109,7 +118,7 @@ public class DepositService
         }
         deposit.Balance -= amount;
         await _depositRepository.Update(deposit);
-        return deposit;
+        return await _depositRepository.GetByClientId(deposit.ClientId);
     }
     private string GenerateNumber()
     {
@@ -123,5 +132,22 @@ public class DepositService
         }
 
         return stringBuilder.ToString();
+    }
+
+    public async Task Delete(Guid id)
+    {
+        var deposit = await _depositRepository.GetById(id);
+        if (deposit is null)
+        {
+            throw new Exception("Депозит не найден ");
+        }
+
+        await _depositRepository.Delete(deposit);
+    }
+
+    public async Task<DepositType> GetTypeByDepositId(Guid depositId)
+    {
+        var deposit = await _depositRepository.GetById(depositId);
+        return await _depositTypeRepository.GetById(deposit.TypeId);
     }
 }

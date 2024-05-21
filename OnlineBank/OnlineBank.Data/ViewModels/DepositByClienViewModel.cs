@@ -6,4 +6,5 @@ public class DepositByClienViewModel
 {
     public Deposit Deposit { get; set; }
     public DepositType DepositType {get; set;}
+    public decimal TotalAmountAtEnd { get; set; }
 }
